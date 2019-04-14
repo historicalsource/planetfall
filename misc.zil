@@ -1,73 +1,11 @@
 "MISC for PLANETFALL
 (c) Copyright 1983 Infocom, Inc.  All Rights Reserved."
 
-^L
-
 "old MACROS file"
 
 <SETG C-ENABLED? 0>
 <SETG C-ENABLED 1>
 <SETG C-DISABLED 0>
-
-;<COND (<NOT <GASSIGNED? XTELLEN>> <SETG XTELLEN 15>)>
-
-;<DEFINE XSTR (STR "AUX" (L ,XTELLEN))
- <COND (<AND <NOT <GASSIGNED? PREDGEN>>
-	     <TYPE? .STR STRING>
-	     <NOT <LENGTH? .STR .L>>>
-	<STRING <SUBSTRUC .STR 0 <- .L 3>> "...">)
-       (T .STR)>>
-
-;<DEFINE XTELL ("CALL" F "AUX" (L ,XTELLEN)) ;"use %<XTELL ...> for <TELL ...>"
- <COND (<NOT <GASSIGNED? PREDGEN>>
-	<MAPR <>
-	      <FUNCTION (FF "AUX" (A <1 .FF>))
-	       <COND (<AND <TYPE? .A STRING>
-			   <NOT <LENGTH? .A .L>>>
-		      <1 .FF <STRING <SUBSTRUC .A 0 <- .L 3>>
-				     "...">>)>>
-	      .F>)>
- <1 .F TELL>>
-
-<DEFMAC TELL ("ARGS" A)
-	<FORM PROG ()
-	      !<MAPF ,LIST
-		     <FUNCTION ("AUX" E P O)
-			  <COND (<EMPTY? .A> <MAPSTOP>)
-				(<SET E <NTH .A 1>>
-				 <SET A <REST .A>>)>
-			  <COND (<TYPE? .E ATOM>
-				 <COND (<OR <=? <SET P <SPNAME .E>>
-						"CRLF">
-					    <=? .P "CR">>
-					<MAPRET '<CRLF>>)
-				       (<EMPTY? .A>
-					<ERROR INDICATOR-AT-END? .E>)
-				       (ELSE
-					<SET O <NTH .A 1>>
-					<SET A <REST .A>>
-					<COND (<OR <=? <SET P <SPNAME .E>>
-						       "DESC">
-						   <=? .P "D">
-						   <=? .P "OBJ">
-						   <=? .P "O">>
-					       <MAPRET <FORM PRINTD .O>>)
-					      (<OR <=? .P "NUM">
-						   <=? .P "N">>
-					       <MAPRET <FORM PRINTN .O>>)
-					      (<OR <=? .P "CHAR">
-						   <=? .P "CHR">
-						   <=? .P "C">>
-					       <MAPRET <FORM PRINTC .O>>)
-					      (ELSE
-					       <MAPRET
-						 <FORM PRINT
-						       <FORM GETP .O .E>>>)>)>)
-				(<TYPE? .E STRING>
-				 <MAPRET <FORM PRINTI .E>>)
-				(<TYPE? .E FORM>
-				 <MAPRET <FORM PRINT .E>>)
-				(ELSE <ERROR UNKNOWN-TYPE .E>)>>>>>
 
 <DEFMAC VERB? ("TUPLE" ATMS "AUX" (O ()) (L ())) 
 	<REPEAT ()
@@ -91,9 +29,6 @@
 <DEFMAC PROB ('BASE?)
 	 <FORM NOT <FORM L? .BASE? '<RANDOM 100>>>>
 
-;<ROUTINE ZPROB (BASE)
-	 <G? .BASE <RANDOM 300>>>
-
 <ROUTINE PICK-ONE (FROB)
 	 <GET .FROB <RANDOM <GET .FROB 0>>>>
 
@@ -109,7 +44,7 @@
 	<FORM COND (<FORM L? .NUM 0> <FORM - 0 .NUM>)
 	           (T .NUM)>>
 
-^L
+
 
 "old MAIN or VERMONT file"
 
@@ -146,7 +81,11 @@
 	 <ENABLE <QUEUE I-SICKNESS-WARNINGS 1000>>
 ;"set up and go"
 	 <SETG SPOUT-PLACED ,GROUND>
-	 <SETG INTERNAL-MOVES <+ 4450 <RANDOM 180>>>
+	 ;"following COND avoids random-before-first-read message in ZIP20"
+	 <COND (<EQUAL? <GETB 0 56> 0>
+		<SETG INTERNAL-MOVES <+ 4450 <RANDOM 180>>>)
+	       (T
+		<SETG INTERNAL-MOVES 4540>)>
          <SETG MOVES ,INTERNAL-MOVES>
 	 <SETG LIT T>
 	 <SETG WINNER ,ADVENTURER>
@@ -332,11 +271,9 @@ Class Blather, the bane of your shipboard existence, could appear." CR CR>)>
 	       (T
 		<RFALSE>)>>
 
-<GLOBAL L-PRSA <>>  
- 
-<GLOBAL L-PRSO <>>  
- 
-<GLOBAL L-PRSI <>>  
+<GLOBAL L-PRSA <>>
+<GLOBAL L-PRSO <>>
+<GLOBAL L-PRSI <>>
 
 %<COND (<GASSIGNED? PREDGEN>
 
@@ -471,7 +408,7 @@ Class Blather, the bane of your shipboard existence, could appear." CR CR>)>
 		       (ELSE
 			<SET OBJ <LOC .OBJ>>)>>>
 
-^L
+
 
 "old CLOCK file"
 
@@ -497,10 +434,6 @@ Class Blather, the bane of your shipboard existence, could appear." CR CR>)>
 <CONSTANT C-TICK 1>
 
 <CONSTANT C-RTN 2>
-
-;<ROUTINE DEMON (RTN TICK "AUX" CINT)
-	 <PUT <SET CINT <INT .RTN T>> ,C-TICK .TICK>
-	 .CINT>
 
 <ROUTINE QUEUE (RTN TICK "AUX" CINT)
 	 <PUT <SET CINT <INT .RTN>> ,C-TICK .TICK>

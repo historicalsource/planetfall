@@ -7,8 +7,6 @@ begin with 'P-'.  Local variables are not restricted in any way."
 
 <SETG SIBREAKS ".,\"">   
 
-;<GLOBAL GWIM-DISABLE <>> 
-
 <GLOBAL PRSA 0>
 
 <GLOBAL PRSI 0>
@@ -241,7 +239,7 @@ begin with 'P-'.  Local variables are not restricted in any way."
 					   <EQUAL? .WORD ,W?BOTH>
 					   <WT? .WORD ,PS?ADJECTIVE>
 					   <WT? .WORD ,PS?OBJECT>>
-				       <SET VAL 0>>>
+				       ;<SET VAL 0>>>
 			      <COND (<AND <G? ,P-LEN 0>
 					  <==? <GET ,P-LEXV
 						    <+ .PTR ,P-LEXELEN>>
@@ -309,6 +307,7 @@ or creatures." CR>
 <ROUTINE WT? (PTR BIT "OPTIONAL" (B1 5) "AUX" (OFFST ,P-P1OFF) TYP) 
 	<COND (<BTST <SET TYP <GETB .PTR ,P-PSOFF>> .BIT>
 	       <COND (<G? .B1 4> <RTRUE>)
+		     (<EQUAL? .BIT ,PS?OBJECT> 1)
 		     (T
 		      <SET TYP <BAND .TYP ,P-P1BITS>>
 		      <COND (<NOT <==? .TYP .B1>> <SET OFFST <+ .OFFST 1>>)>
@@ -1234,15 +1233,6 @@ or creatures." CR>
 		<TELL " " D ,PRSO>)
 	       (T
 		<BUFFER-PRINT .PTR <GET ,P-ITBL ,P-NC1L> <>>)>>
-
-;<ROUTINE PRSI-PRINT ("AUX" PTR)
-	 <COND (<OR ,P-MERGED
-		    <==? <GET <SET PTR <GET ,P-ITBL ,P-NC2>> 0> ,W?IT>>
-		<TELL " " D ,PRSO>)
-	       (T
-		<BUFFER-PRINT .PTR <GET ,P-ITBL ,P-NC2L> <>>)>>
-
-;"former CRUFTY.ZIL routine, re-written by SWG"
 
 <ROUTINE THIS-IT? (OBJ TBL "AUX" SYNS) 
  <COND (<FSET? .OBJ ,INVISIBLE> <RFALSE>)

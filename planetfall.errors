@@ -1,0 +1,22 @@
+Assembling PLANETFALL.ZAP.3 on Sunday, May 1, 1988 13:37:01
+Release: 39
+
+    64	Inserting PLANETFALLFREQ.XZAP.1	   (648 bytes)
+   712	Inserting PLANETFALLDAT.ZAP.3	 (21209 bytes)
+ 21921	Inserting PLANETFALLPUR.ZAP.2	   (184 bytes)
+ 22105	Inserting MISC.ZAP.4	  (1675 bytes)
+ 23780	Inserting GLOBALS.ZAP.3	 (18243 bytes)
+ 42023	Inserting PARSER.ZAP.3	  (5401 bytes)
+ 47424	Inserting VERBS.ZAP.3	 (10683 bytes)
+ 58107	Inserting COMPONE.ZAP.3	 (15047 bytes)
+ 73154	Inserting COMPTWO.ZAP.3	 (15446 bytes)
+ 88600	Inserting PLANETFALLSTR.ZAP.3	 (20682 bytes)
+255 objects.
+231 globals.
+668 word vocabulary.
+
+109282 bytes (107K).
+ 21921 bytes of preload.
+ 14284 bytes of impure.
+
+Outputting symbol tables

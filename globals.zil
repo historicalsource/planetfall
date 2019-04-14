@@ -25,7 +25,7 @@ contains the opening sequence which occurs prior to planetfall."
 	(CONTFCN 0)
 	(DESCFCN 0)
 	(SIZE 0)
-	(PSEUDO "FOO")>
+	;(PSEUDO "FOO")>
 
 ;"Yes, this synonym for LOCAL-GLOBALS needs to exist... sigh"
 
@@ -360,11 +360,6 @@ gotten 300 demerits." CR>)
 		<TELL "That's difficult unless your eyes are prehensile."
 		      CR>)>>
 
-;<GLOBAL DUMMY
-	<PLTABLE "Look around."
-		"You think it isn't?"
-		"I think you've already done that.">>
-
 <ROUTINE DDESC (DOOR)
 	 <COND (<FSET? .DOOR ,OPENBIT>
 		<TELL "open">)
@@ -386,18 +381,10 @@ gotten 300 demerits." CR>)
 "You hit your head against the " D ,PRSO " as you attempt this feat." CR>)
 	      (.OBJ
 	       <TELL "You can't do that!" CR>)
-	      (<IN? ,PRSO ,WINNER>
+	      (<IN? ,PRSO ,ADVENTURER>
 	       <TELL "That would involve quite a contortion!" CR>)
 	      (T
 	       <TELL <PICK-ONE ,YUKS> CR>)>>
-
-;<ROUTINE ROOM? (OBJ "AUX" NOBJ)
-	 <REPEAT ()
-		 <SET NOBJ <LOC .OBJ>>
-		 <COND (<NOT .NOBJ> <RFALSE>)
-		       (<==? .NOBJ ,WINNER> <RFALSE>)
-		       (<==? .NOBJ ,ROOMS> <RETURN .OBJ>)>
-		 <SET OBJ .NOBJ>>>
 
 <ROUTINE FIND-IN (WHERE WHAT "AUX" W)
 	 <SET W <FIRST? .WHERE>>
@@ -405,13 +392,6 @@ gotten 300 demerits." CR>)
 	 <REPEAT ()
 		 <COND (<FSET? .W .WHAT> <RETURN .W>)
 		       (<NOT <SET W <NEXT? .W>>> <RETURN <>>)>>>
-
-;<ROUTINE FIND-ROOM (X)
-	 <REPEAT ()
-		 <COND (<NOT .X> ;"this can't happen, of course"
-			<RETURN ,ROOMS>)
-		       (<IN? .X ,ROOMS> <RETURN .X>)>
-		 <SET X <LOC .X>>>>
 
 ;"Stuff added for the NOT-HERE object"
 
@@ -492,7 +472,7 @@ gotten 300 demerits." CR>)
        (T
 	<BUFFER-PRINT <GET ,P-ITBL ,P-NC2> <GET ,P-ITBL ,P-NC2L> <>>)>>
 
-^L
+
 
 ;"Begin-game stuff aboard the Feinstein"
 
@@ -691,22 +671,7 @@ down, and to fore is the Hyperspatial Jump Machinery Room.")
       (WEST "Blather throws you to the deck and makes you do 20 push-ups.")
       (NORTH "Blather blocks your path, growling about extra galley duty.")
       (FLAGS RLANDBIT ONBIT)
-      (GLOBAL STAIRS)>
-
-;<OBJECT MEASLE
-	(DESC "Lt. Measle")
-	(LDESC
-"The Feinstein's record officer, Lieutenant Measle, is here.")
-	(SYNONYM MEASLE OFFICER)
-	(ADJECTIVE LT LIEUTENANT RECORD)
-	(FLAGS ACTORBIT)
-	(ACTION MEASLE-F)>
-
-;<ROUTINE MEASLE-F ()
-	 <COND (<VERB? ATTACK KICK>
-		<TELL "Lt. Measle summons Ensign Blather, who throws
-you in the brig." CR>
-		<GOTO ,BRIG>)>> 
+      (GLOBAL STAIRS)> 
 
 <GLOBAL BLATHER-LEAVE 0>
 
@@ -775,7 +740,8 @@ demerits onto an oversized clipboard.")
 	(ACTION BLATHER-F)>
 
 <ROUTINE BLATHER-F ()
-	 <COND (<VERB? TALK TELL HELLO>		
+	 <COND (<OR <VERB? TALK HELLO>
+		    <EQUAL? ,BLATHER ,WINNER>>		
 		<TELL
 "Blather shouts \"Speak when you're spoken to, Ensign Seventh Class!\" He
 breaks three pencil points in a frenzied rush to give you more demerits." CR>
@@ -893,7 +859,8 @@ Buy one today. Better yet, buy a thousand.\"")>
 	 "offers you a bit of celery.">>
 
 <ROUTINE AMBASSADOR-F ()
-	 <COND (<VERB? TALK TELL HELLO>
+	 <COND (<OR <VERB? TALK HELLO>
+		    <EQUAL? ,AMBASSADOR ,WINNER>>
 		<TELL
 "The ambassador taps his translator, and then touches his center knee to his
 left ear (the Blow'k-bibben-Gordoan equivalent of shrugging)." CR>
@@ -1208,13 +1175,13 @@ away. Bursts of light dot its hull. Suddenly, a huge explosion blows the
 Feinstein into tiny pieces, sending the escape pod tumbling away! " CR>
 		       <ENABLE <QUEUE I-POD-TRIP -1>>
 		       <DISABLE <INT I-BLOWUP-FEINSTEIN>>
-		       <COND (<AND <NOT <IN? ,WINNER ,SAFETY-WEB>>
+		       <COND (<AND <NOT <IN? ,ADVENTURER ,SAFETY-WEB>>
 				   <PROB 20>>
 			      <JIGS-UP
 "|
 You are thrown against the bulkhead, head first. It seems that getting in
 the safety webbing would have been a good idea.">)
-			     (<NOT <IN? ,WINNER ,SAFETY-WEB>>
+			     (<NOT <IN? ,ADVENTURER ,SAFETY-WEB>>
 			      <TELL CR
 "You are thrown against the bulkhead, bruising a few limbs. The safety
 webbing might have offered a bit more protection." CR>)>)>)
@@ -1340,7 +1307,7 @@ to be surrounded by sheer cliffs rising from the water, and is topped by
 a wide plateau. The plateau seems to be covered by a sprawling complex
 of buildings." CR>)
 	       (<EQUAL? ,TRIP-COUNTER 11>
-		<COND (<IN? ,WINNER ,SAFETY-WEB>
+		<COND (<IN? ,ADVENTURER ,SAFETY-WEB>
 		       <MOVE ,FOOD-KIT ,HERE>
 		       <MOVE ,TOWEL ,HERE>
 		       <TELL CR
@@ -1384,7 +1351,7 @@ for you. Perhaps you should have left the pod a bit sooner.">)
 "|
 The pod splits open, and water pours in.">)>)>>
 
-^L
+
 "The next bunch of stuff is for the cards, slots, and associated junk."
 
 <OBJECT SLOT
@@ -1510,7 +1477,7 @@ nothing. He scratches his head and looks confused." CR>)>)>>
 		<COND (<EQUAL? ,HERE ,MESS-HALL>
 		       <TELL CR
 "The kitchen door slides quietly closed." CR>)>)>>
-^L
+
 
 ;"teleportation stuff"
 
@@ -1573,7 +1540,7 @@ nothing. He scratches his head and looks confused." CR>)>)>>
 	 <COND (<EQUAL? ,HERE ,BOOTH-1 ,BOOTH-2 ,BOOTH-3>
 		<TELL CR "The ready light goes dark." CR>)>>
 
-^L
+
 
 ;"shuttle system"
 
@@ -2050,7 +2017,7 @@ condition to care.">)>
 <GLOBAL SIGN-PASS
 "You pass a sign, surrounded by blinking red lights, which says ">
 
-^L
+
 
 "To sleep, perchance to dream..."
 
@@ -2319,7 +2286,7 @@ sleeping on the floor,\" he says." CR>)>)>>
 		<JIGS-UP
 "Unfortunately, you don't seem to have survived the night.">)>>
 
-^L
+
 
 "Feed me!"
 
@@ -2352,7 +2319,7 @@ You collapse from extreme thirst and hunger.">)>>
 
 <GLOBAL NOT-HUNGRY "Thanks, but you're not hungry.">
 
-^L
+
 
 "Sickness and disease"
 

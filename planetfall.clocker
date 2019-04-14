@@ -1,0 +1,22 @@
+<ROUTINE CLOCKER ("AUX" C E TICK (FLG <>))
+	 ;<SETG ELAPSED-MOVES <+ ,ELAPSED-MOVES 1>>
+	 ;<COND (,DEBUG-ON
+		<TELL "[Elapsed time: " N ,C-ELAPSED "]" CR>)>
+	 ;<COND (,CLOCK-WAIT <SETG CLOCK-WAIT <>> <RFALSE>)>
+	 <SET C <REST ,C-TABLE <COND (,P-WON ,C-INTS) (T ,C-DEMONS)>>>
+	 <SET E <REST ,C-TABLE ,C-TABLELEN>>
+	 <REPEAT ()
+		 <COND (<==? .C .E> <RETURN .FLG>)
+		       (<NOT <0? <GET .C ,C-ENABLED?>>>
+			<SET TICK <GET .C ,C-TICK>>
+			<COND (<0? .TICK>)
+			      (<==? .TICK -1>
+			       <COND (<APPLY <GET .C ,C-RTN>>
+				      <SET FLG T>)>)
+			      (T
+			       <PUT .C ,C-TICK <SET TICK <- .TICK ,C-ELAPSED>>>
+			       <COND (<NOT <G? .TICK 1>>
+				      <PUT .C ,C-TICK 0>
+				      <COND (<APPLY <GET .C ,C-RTN>>
+					     <SET FLG T>)>)>)>)>
+		 <SET C <REST .C ,C-INTLEN>>>>

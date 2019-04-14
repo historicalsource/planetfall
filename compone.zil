@@ -1667,14 +1667,6 @@ says \"ASID.\"" CR>)
 "Floyd pushes one of the dispenser buttons. Fluid pours from the spout and
 splashes across the floor. Floyd jumps up and down, giggling." CR>)>>
 
-;<OBJECT DIGGER
-	(IN MACHINE-SHOP)
-	(DESC "wheelbarrow-like machine")
-	(FDESC
-"In the far corner is an odd machine, somewhat reminiscent of a wheelbarrow.")
-	(SYNONYM WHEELBARROW MACHINE DIGGER)
-	(ADJECTIVE ODD)>
-
 <OBJECT CHEMICAL-DISPENSER
 	(IN MACHINE-SHOP)
 	(DESC "chemical dispenser")
@@ -2345,9 +2337,9 @@ that great robot shop in the sky." CR>)>>
 	 "produces a crayon from one of his compartments and scrawls
 his name on the wall">>
 
-^L
+
 
-;Elevator department
+"Elevator department"
 
 <ROOM ELEVATOR-LOBBY
       (IN ROOMS)
@@ -2506,7 +2498,7 @@ a narrow slot." CR>)>>
 	(IN LOCAL-GLOBALS)
 	(DESC "red door")
 	(SYNONYM DOOR)
-	(ADJECTIVE RED LOWER ELEVATOR)
+	(ADJECTIVE RED LOWER ELEVATOR METAL)
 	(FLAGS NDESCBIT DOORBIT)
 	(ACTION LOWER-ELEVATOR-DOOR-F)>
 

@@ -1,0 +1,629 @@
+
+<ROOM UNDERWATER (IN ROOMS) (DESC "Underwater") (LDESC
+"You are momentarily disoriented as you enter the turbulent waters.
+Currents buffet you against the sharp rocks of an underwater
+cliff. A dim light filters down from above.") (C-MOVE <TABLE 0 0 0 35 0 0 0 0 0
+0 0 0>) (UP TO CRAG) (DOWN TO UNDERWATER) (WEST TO UNDERWATER) (NORTH TO
+UNDERWATER) (SOUTH TO UNDERWATER) (FLAGS ONBIT RWATERBIT) (ACTION UNDERWATER-F)
+> 
+<GLOBAL DROWN 0 %<> WORD> 
+<DEFINE-ROUTINE UNDERWATER-F> 
+<ROOM CRAG (IN ROOMS) (DESC "Crag") (LDESC
+"You have reached a cleft in the cliff wall where the island rises from the
+water. The edge of the cleft displays recently exposed rock where it collapsed
+under the weight of the escape pod. About two meters below, turbulent waters
+swirl against sharp rocks. A small structure clings to the face of the cliff
+about eight meters above you. Even an out-of-shape Ensign Seventh Class could
+probably climb up to it.") (C-MOVE <TABLE 0 0 10 40 0 0 0 0 0 0 0 0>) (DOWN TO
+UNDERWATER) (UP TO BALCONY) (FLAGS ONBIT RLANDBIT) (VALUE 3) (GLOBAL CLIFF
+OCEAN) (PSEUDO "STRUCTURE" STRUCTURE-PSEUDO "CLEFT" CLEFT-PSEUDO) (ACTION
+CRAG-F)> 
+<DEFINE-ROUTINE CRAG-F> 
+<ROOM BALCONY (IN ROOMS) (DESC "Balcony") (C-MOVE <TABLE 0 0 25 30 0 0 0 0 0 0
+0 0>) (DOWN PER WATER-LEVEL-F) (UP TO WINDING-STAIR) (FLAGS ONBIT RLANDBIT) (
+PSEUDO "PLAQUE" PLAQUE-PSEUDO) (GLOBAL CLIFF OCEAN STAIRS WINDOW) (ACTION
+BALCONY-F)> 
+<DEFINE-ROUTINE BALCONY-F> 
+<ROOM WINDING-STAIR (IN ROOMS) (DESC "Winding Stair") (C-MOVE <TABLE 0 0 15 30
+0 0 0 0 0 0 0 0>) (DOWN PER WATER-LEVEL-F) (UP TO COURTYARD) (FLAGS ONBIT
+RLANDBIT) (GLOBAL CLIFF STAIRS) (ACTION WINDING-STAIR-F)> 
+<DEFINE-ROUTINE WINDING-STAIR-F> 
+<ROOM COURTYARD (IN ROOMS) (DESC "Courtyard") (C-MOVE <TABLE 0 0 15 0 0 0 0 0 0
+0 0 0>) (DOWN TO WINDING-STAIR) (SOUTH TO WINDING-STAIR) (WEST TO WEST-WING) (
+NORTH TO PLAIN-HALL) (FLAGS ONBIT RLANDBIT FLOYDBIT) (GLOBAL STAIRS) (PSEUDO
+"CASTLE" CASTLE-PSEUDO "RUBBLE" RUBBLE-PSEUDO) (ACTION COURTYARD-F)> 
+<DEFINE-ROUTINE COURTYARD-F> 
+<DEFINE-ROUTINE WATER-LEVEL-F> 
+<ROOM WEST-WING (IN ROOMS) (DESC "West Wing") (LDESC
+"This was once the west wing of the castle, but the walls are now mostly
+rubble, allowing a view of the cliff and ocean below. Rubble blocks all exits
+save one, eastward to the courtyard.") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>)
+(EAST TO COURTYARD) (DOWN "Certain death.") (FLAGS ONBIT RLANDBIT FLOYDBIT) (
+GLOBAL CLIFF OCEAN) (PSEUDO "CASTLE" CASTLE-PSEUDO "RUBBLE" RUBBLE-PSEUDO)> 
+<ROOM PLAIN-HALL (IN ROOMS) (DESC "Plain Hall") (LDESC
+"This is a featureless hall leading north and south. Although the hallway is
+old and dusty, the construction is of a much more modern style than the
+castle to the south. A similar hall branches off to the northeast.") (C-MOVE <
+TABLE 0 0 0 0 0 0 0 0 0 0 25 0>) (SOUTH TO COURTYARD) (NORTH TO REC-AREA) (NE
+TO REC-CORRIDOR) (FLAGS ONBIT RLANDBIT)> 
+<ROOM REC-AREA (IN ROOMS) (DESC "Rec Area") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0
+0 0>) (NORTH TO CONFERENCE-ROOM IF CONFERENCE-DOOR IS OPEN) (SOUTH TO
+PLAIN-HALL) (EAST TO REC-CORRIDOR) (FLAGS ONBIT RLANDBIT FLOYDBIT) (GLOBAL
+CONFERENCE-DOOR) (PSEUDO "GAMES" GAMES-PSEUDO "TAPES" TAPES-PSEUDO) (ACTION
+REC-AREA-F)> 
+<GLOBAL DIAL-NUMBER 0 %<> WORD> 
+<GLOBAL NUMBER-NEEDED 0 %<> WORD> 
+<DEFINE-ROUTINE REC-AREA-F> 
+<ROOM CONFERENCE-ROOM (IN ROOMS) (DESC "Conference Room") (C-MOVE <TABLE 0 0 0
+0 0 0 0 0 0 0 0 0>) (SOUTH TO REC-AREA IF CONFERENCE-DOOR IS OPEN) (OUT TO
+REC-AREA IF CONFERENCE-DOOR IS OPEN) (IN TO BOOTH-1) (NORTH TO BOOTH-1) (FLAGS
+RLANDBIT ONBIT) (PSEUDO "BOOTH" NEAR-BOOTH-PSEUDO) (GLOBAL CONFERENCE-DOOR
+TABLES) (ACTION CONFERENCE-ROOM-F)> 
+<DEFINE-ROUTINE CONFERENCE-ROOM-F> 
+<OBJECT CONFERENCE-DOOR (IN LOCAL-GLOBALS) (DESC "door") (SYNONYM DOOR) (FLAGS
+DOORBIT NDESCBIT) (ACTION CONFERENCE-DOOR-F)> 
+<OBJECT COMBINATION-DIAL (IN REC-AREA) (DESC "combination dial") (SYNONYM DIAL)
+(ADJECTIVE COMBINATION) (FLAGS MUNGBIT NDESCBIT) (ACTION COMBINATION-DIAL-F)> 
+<DEFINE-ROUTINE COMBINATION-DIAL-F> 
+<DEFINE-ROUTINE CONFERENCE-DOOR-F> 
+<ROOM BOOTH-1 (IN ROOMS) (DESC "Booth 1") (LDESC
+"This is a tiny room with a large \"1\" painted on the wall. A panel contains
+a slot about ten centimeters wide, a beige button labelled \"2\" and a tan
+button labelled \"3.\"") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (SOUTH TO
+CONFERENCE-ROOM) (OUT TO CONFERENCE-ROOM) (PSEUDO "BOOTH" IN-BOOTH-PSEUDO) (
+FLAGS ONBIT RLANDBIT) (GLOBAL CONTROLS SLOT TELEPORTATION-BUTTON-2
+TELEPORTATION-BUTTON-3)> 
+<ROOM REC-CORRIDOR (IN ROOMS) (DESC "Rec Corridor") (LDESC
+"This is a wide, east-west hallway. Portals lead north and south, and another
+corridor branches southwest.") (C-MOVE <TABLE 0 0 0 0 0 0 25 0 0 0 0 0>) (WEST
+TO REC-AREA) (NORTH TO DORM-B) (SOUTH TO DORM-A) (EAST TO MESS-CORRIDOR) (SW TO
+PLAIN-HALL) (FLAGS ONBIT RLANDBIT)> 
+<ROOM DORM-A (IN ROOMS) (DESC "Dorm A") (LDESC
+"This is a very long room lined with multi-tiered bunks. Flimsy partitions
+between the tiers may have provided a modicum of privacy. These spartan
+living quarters could have once housed many hundreds, but it seems quite
+deserted now. There are openings at the north and south ends of the room.") (
+C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (SOUTH TO SANFAC-A) (NORTH TO
+REC-CORRIDOR) (FLAGS FLOYDBIT ONBIT RLANDBIT) (GLOBAL BED) (PSEUDO "PARTITION"
+PARTITION-PSEUDO)> 
+<ROOM SANFAC-A (IN ROOMS) (DESC "SanFac A") (LDESC
+"This must be the sanitary facility for the adjacent dormitory. The fixtures
+are dry and dusty, the room dead and deserted. You marvel at how little the
+millenia and cultural gulfs have changed toilet bowl design. The only exit is
+north.") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (NORTH TO DORM-A) (FLAGS
+ONBIT RLANDBIT FLOYDBIT) (PSEUDO "FIXTURES" TOILET-PSEUDO "TOILET"
+TOILET-PSEUDO)> 
+<ROOM DORM-B (IN ROOMS) (DESC "Dorm B") (LDESC
+"This is a very long room lined with multi-tiered bunks. Flimsy partitions
+between the tiers may have provided a modicum of privacy. These spartan
+living quarters could have once housed many hundreds, but it seems quite
+deserted now. There are openings at the north and south ends of the room.") (
+C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (SOUTH TO REC-CORRIDOR) (NORTH TO
+SANFAC-B) (FLAGS FLOYDBIT ONBIT RLANDBIT) (GLOBAL BED) (PSEUDO "PARTITION"
+PARTITION-PSEUDO)> 
+<ROOM SANFAC-B (IN ROOMS) (DESC "SanFac B") (LDESC
+"This must be the sanitary facility for the adjacent dormitory. The fixtures
+are dry and dusty, the room dead and deserted. You marvel at how little the
+millenia and cultural gulfs have changed toilet bowl design. The only exit is
+south.") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (SOUTH TO DORM-B) (FLAGS
+FLOYDBIT ONBIT RLANDBIT) (PSEUDO "FIXTURES" TOILET-PSEUDO "TOILET"
+TOILET-PSEUDO)> 
+<ROOM DORM-C (IN ROOMS) (DESC "Dorm C") (LDESC
+"This is a very long room lined with multi-tiered bunks. Flimsy partitions
+between the tiers may have provided a modicum of privacy. These spartan
+living quarters could have once housed many hundreds, but it seems quite
+deserted now. There are openings at the north and south ends of the room.") (
+C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (NORTH TO DORM-CORRIDOR) (SOUTH TO
+SANFAC-C) (FLAGS ONBIT FLOYDBIT RLANDBIT) (GLOBAL BED) (PSEUDO "PARTITION"
+PARTITION-PSEUDO)> 
+<ROOM SANFAC-C (IN ROOMS) (DESC "SanFac C") (LDESC
+"This must be the sanitary facility for the adjacent dormitory. The fixtures
+are dry and dusty, the room dead and deserted. You marvel at how little the
+millenia and cultural gulfs have changed toilet bowl design. The only exit is
+north.") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (NORTH TO DORM-C) (FLAGS
+FLOYDBIT ONBIT RLANDBIT) (PSEUDO "FIXTURES" TOILET-PSEUDO "TOILET"
+TOILET-PSEUDO)> 
+<ROOM DORM-D (IN ROOMS) (DESC "Dorm D") (LDESC
+"This is a very long room lined with multi-tiered bunks. Flimsy partitions
+between the tiers may have provided a modicum of privacy. These spartan
+living quarters could have once housed many hundreds, but it seems quite
+deserted now. There are openings at the north and south ends of the room.") (
+C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (SOUTH TO DORM-CORRIDOR) (NORTH TO
+SANFAC-D) (FLAGS FLOYDBIT ONBIT RLANDBIT) (GLOBAL BED) (PSEUDO "PARTITION"
+PARTITION-PSEUDO)> 
+<ROOM SANFAC-D (IN ROOMS) (DESC "SanFac D") (LDESC
+"This must be the sanitary facility for the adjacent dormitory. The fixtures
+are dry and dusty, the room dead and deserted. You marvel at how little the
+millenia and cultural gulfs have changed toilet bowl design. The only exit is
+south.") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (SOUTH TO DORM-D) (FLAGS
+ONBIT FLOYDBIT RLANDBIT) (PSEUDO "FIXTURES" TOILET-PSEUDO "TOILET"
+TOILET-PSEUDO)> 
+<ROOM MESS-CORRIDOR (IN ROOMS) (DESC "Mess Corridor") (C-MOVE <TABLE 0 0 0 0 0
+0 0 0 0 0 0 0>) (SOUTH TO MESS-HALL) (NORTH TO STORAGE-WEST IF
+STORAGE-WEST-DOOR IS OPEN) (EAST TO DORM-CORRIDOR) (WEST TO REC-CORRIDOR) (
+FLAGS ONBIT RLANDBIT) (GLOBAL STORAGE-WEST-DOOR) (ACTION MESS-CORRIDOR-F)> 
+<DEFINE-ROUTINE MESS-CORRIDOR-F> 
+<OBJECT STORAGE-WEST-DOOR (IN LOCAL-GLOBALS) (DESC "door") (SYNONYM DOOR) (
+FLAGS DOORBIT NDESCBIT) (ACTION STORAGE-WEST-DOOR-F)> 
+<DEFINE-ROUTINE STORAGE-WEST-DOOR-F> 
+<OBJECT PADLOCK (IN MESS-CORRIDOR) (DESC "padlock") (SYNONYM PADLOCK PAD LOCK)
+(ADJECTIVE SIMPLE STEEL METAL) (SIZE 10) (FLAGS MUNGBIT NDESCBIT TAKEBIT
+TRYTAKEBIT) (ACTION PADLOCK-F)> 
+<GLOBAL PADLOCK-REMOVED <> %<> WORD> 
+<DEFINE-ROUTINE PADLOCK-F> 
+<ROOM STORAGE-WEST (IN ROOMS) (DESC "Storage West") (LDESC
+"This is a small room obviously intended as a storage area.") (C-MOVE <TABLE 0
+0 0 0 0 0 0 0 0 0 0 0>) (SOUTH TO MESS-CORRIDOR IF STORAGE-WEST-DOOR IS OPEN) (
+OUT TO MESS-CORRIDOR IF STORAGE-WEST-DOOR IS OPEN) (FLAGS RLANDBIT ONBIT) (
+VALUE 4) (GLOBAL SHELVES STORAGE-WEST-DOOR)> 
+<OBJECT CAN (IN STORAGE-WEST) (DESC "tin can") (LDESC
+"There is a large tin can, labelled \"Spam and Egz,\" sitting here.") (FDESC
+"On a small shelf is a large, unopened tin can. It has a plain white
+label which reads \"Spam and Egz.\"") (SIZE 15) (SYNONYM CAN) (ADJECTIVE LARGE
+TIN UNOPENED) (FLAGS TAKEBIT) (ACTION CAN-F)> 
+<DEFINE-ROUTINE CAN-F> 
+<OBJECT LADDER (IN STORAGE-WEST) (DESC "ladder") (FDESC
+"A heavy-duty extendable ladder is leaning against the rear wall.") (LDESC
+"There is a large aluminum ladder here.") (SYNONYM LADDER) (ADJECTIVE HEAVY
+DUTY ALUMINUM LARGE) (SIZE 80) (FLAGS TAKEBIT) (ACTION LADDER-F)> 
+<GLOBAL LADDER-EXTENDED <> %<> WORD> 
+<GLOBAL LADDER-FLAG <> %<> WORD> 
+<DEFINE-ROUTINE LADDER-F> 
+<ROOM DORM-CORRIDOR (IN ROOMS) (DESC "Dorm Corridor") (LDESC
+"This is a wide, east-west hallway with openings to the north and south.
+To the east, the corridor stretches off into the distance. That section of
+the hallway is lined with a motorized walkway (no longer running) that
+was probably intended to transport people or cargo down that tremendously
+long hall.") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 160 0 0>) (NORTH TO DORM-D) (
+SOUTH TO DORM-C) (WEST TO MESS-CORRIDOR) (EAST PER LONG-HALL-F) (FLAGS ONBIT
+RLANDBIT) (PSEUDO "WALKWAY" WALKWAY-PSEUDO)> 
+<ROOM MESS-HALL (IN ROOMS) (DESC "Mess Hall") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0
+0 0 0>) (NORTH TO MESS-CORRIDOR) (OUT TO MESS-CORRIDOR) (SOUTH TO KITCHEN IF
+KITCHEN-DOOR IS OPEN) (IN TO KITCHEN IF KITCHEN-DOOR IS OPEN) (GLOBAL TABLES
+KITCHEN-DOOR SLOT) (FLAGS ONBIT FLOYDBIT RLANDBIT) (PSEUDO "BENCH" BENCH-PSEUDO
+"BENCHE" BENCH-PSEUDO) (ACTION MESS-HALL-F)> 
+<DEFINE-ROUTINE MESS-HALL-F> 
+<OBJECT KITCHEN-DOOR (IN LOCAL-GLOBALS) (DESC "door") (SYNONYM DOOR) (ADJECTIVE
+KITCHEN) (FLAGS DOORBIT NDESCBIT) (ACTION KITCHEN-DOOR-F)> 
+<DEFINE-ROUTINE KITCHEN-DOOR-F> 
+<ROOM KITCHEN (IN ROOMS) (DESC "Kitchen") (LDESC
+"This is the food production and dispensary area for the dining hall to the
+north. Of particular interest is a machine near the door. You should probably
+examine it more closely.") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (NORTH TO
+MESS-HALL) (OUT TO MESS-HALL) (GLOBAL KITCHEN-DOOR) (PSEUDO "SPOUT"
+SPOUT-PSEUDO "BUTTON" BUTTON-PSEUDO) (FLAGS ONBIT RLANDBIT) (VALUE 4)> 
+<OBJECT DISPENSER (IN KITCHEN) (DESC "dispenser unit") (SYNONYM UNIT NICHE
+MACHIN DISPEN) (ADJECTIVE DISPEN) (FLAGS MUNGBIT CONTBIT SEARCHBIT OPENBIT
+TRANSBIT NDESCBIT) (ACTION DISPENSER-F)> 
+<OBJECT CANTEEN (IN MESS-HALL) (DESC "canteen") (FDESC
+"Although the room is quite barren, an octagonally-shaped
+canteen is sitting on one of the benches.") (SYNONYM CANTEEN) (ADJECTIVE
+OCTAGONAL) (CAPACITY 5) (SIZE 10) (FLAGS TAKEBIT CONTBIT SEARCHBIT)> 
+<DEFINE-ROUTINE DISPENSER-F> 
+<OBJECT HIGH-PROTEIN (DESC "quantity of protein-rich liquid") (SYNONYM LIQUID
+FLUID FOOD QUANTITY) (ADJECTIVE BROWN PROTEIN-RICH) (SIZE 5) (FLAGS FOODBIT) (
+ACTION HIGH-PROTEIN-F)> 
+<DEFINE-ROUTINE HIGH-PROTEIN-F> 
+<DEFINE-ROUTINE WORTHLESS-ACTION> 
+<ROOM CORRIDOR-JUNCTION (IN ROOMS) (DESC "Corridor Junction") (LDESC
+"A north-south corridor intersects the main corridor here. To the west, the
+main corridor extends as far as you can see; a non-working walkway from
+that direction ends here. To the east, the corridor widens into a well-lit
+area.") (C-MOVE <TABLE 0 0 0 0 0 160 0 0 0 30 0 0>) (NORTH TO ADMIN-CORRIDOR-S)
+(SOUTH TO MECH-CORRIDOR-N) (WEST PER LONG-HALL-F) (EAST TO ELEVATOR-LOBBY) (
+FLAGS FLOYDBIT RLANDBIT ONBIT) (PSEUDO "WALKWAY" WALKWAY-PSEUDO)> 
+<DEFINE-ROUTINE LONG-HALL-F> 
+<ROOM ADMIN-CORRIDOR-S (IN ROOMS) (DESC "Admin Corridor South") (LDESC
+"This section of hallway seems to have suffered some minor structural
+damage. The walls are cracked, and a jagged crevice crosses the floor.
+An opening leads east and the corridor heads north and south.") (C-MOVE <TABLE
+0 0 0 0 0 0 0 0 0 0 0 0>) (SOUTH TO CORRIDOR-JUNCTION) (NORTH TO ADMIN-CORRIDOR
+) (EAST TO SANFAC-E) (FLAGS RLANDBIT ONBIT) (ACTION ADMIN-CORRIDOR-S-F)> 
+<DEFINE-ROUTINE ADMIN-CORRIDOR-S-F> 
+<OBJECT CREVICE (IN ADMIN-CORRIDOR-S) (DESC "crevice") (SYNONYM CREVICE CRACK
+HOLE) (ADJECTIVE NARROW JAGGED) (FLAGS NDESCBIT) (ACTION CREVICE-F)> 
+<DEFINE-ROUTINE CREVICE-F> 
+<OBJECT KEY (IN ADMIN-CORRIDOR-S) (DESC "key") (FDESC
+"Lying at the bottom of a narrow crevice is a shiny object.") (SIZE 3) (SYNONYM
+KEY METAL OBJECT) (ADJECTIVE PIECE STEEL IRON SHINY) (FLAGS ACIDBIT TAKEBIT
+TOOLBIT INVISIBLE TRYTAKEBIT) (ACTION KEY-F)> 
+<DEFINE-ROUTINE KEY-F> 
+<ROOM ADMIN-CORRIDOR (IN ROOMS) (DESC "Admin Corridor") (C-MOVE <TABLE 0 0 0 0
+0 0 0 0 0 0 0 0>) (SOUTH TO ADMIN-CORRIDOR-S) (NORTH PER LADDER-EXIT-F) (WEST
+TO SYSTEMS-MONITORS) (FLAGS RLANDBIT ONBIT) (GLOBAL RIFT) (PSEUDO "RUBBLE"
+RUBBLE-PSEUDO) (ACTION ADMIN-CORRIDOR-F)> 
+<DEFINE-ROUTINE ADMIN-CORRIDOR-F> 
+<ROOM ADMIN-CORRIDOR-N (IN ROOMS) (DESC "Admin Corridor North") (C-MOVE <TABLE
+0 0 0 0 0 0 0 0 0 0 0 0>) (SOUTH PER LADDER-EXIT-F) (NORTH TO
+TRANSPORTATION-SUPPLY) (EAST TO PLAN-ROOM) (WEST TO SMALL-OFFICE) (FLAGS
+RLANDBIT ONBIT) (VALUE 4) (GLOBAL RIFT) (ACTION ADMIN-CORRIDOR-N-F)> 
+<DEFINE-ROUTINE ADMIN-CORRIDOR-N-F> 
+<DEFINE-ROUTINE LADDER-EXIT-F> 
+<OBJECT RIFT (IN LOCAL-GLOBALS) (DESC "rift") (SYNONYM RIFT GULF PRECIPICE HOLE
+) (ADJECTIVE WIDE DEEP GAPING) (FLAGS NDESCBIT) (ACTION RIFT-F)> 
+<DEFINE-ROUTINE RIFT-F> 
+<ROOM SANFAC-E (IN ROOMS) (DESC "SanFac E") (LDESC
+"Here is another sanitary facility. Like the others, it is dusty and
+non-functional.") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (WEST TO
+ADMIN-CORRIDOR-S) (OUT TO ADMIN-CORRIDOR-S) (FLAGS FLOYDBIT RLANDBIT ONBIT) (
+PSEUDO "FIXTURES" TOILET-PSEUDO "TOILET" TOILET-PSEUDO)> 
+<ROOM SYSTEMS-MONITORS (IN ROOMS) (DESC "Systems Monitors") (C-MOVE <TABLE 0 0
+0 0 0 0 0 0 0 0 0 0>) (EAST TO ADMIN-CORRIDOR) (OUT TO ADMIN-CORRIDOR) (FLAGS
+FLOYDBIT RLANDBIT ONBIT) (GLOBAL TABLES) (PSEUDO "MONITORS" MONITORS-PSEUDO
+"EQUIPM" EQUIPMENT-PSEUDO) (ACTION SYSTEMS-MONITORS-F)> 
+<DEFINE-ROUTINE SYSTEMS-MONITORS-F> 
+<DEFINE-ROUTINE DESCRIBE-MONITORS> 
+<ROOM PLAN-ROOM (IN ROOMS) (DESC "Plan Room") (LDESC
+"This is a small room whose far wall is covered with many small cubbyholes,
+all empty. The left wall is covered with an enormous map, labelled
+\"Kalamontee Kompleks\", showing two installations connected by a long
+hallway. Near the upper part of this map is a red arrow saying \"Yuu ar
+heer.\" The right wall is covered with a similar map, labelled \"Lawanda
+Kompleks\", showing two installations, one apparently buried deep
+underground.") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (WEST TO
+ADMIN-CORRIDOR-N) (FLAGS RLANDBIT ONBIT FLOYDBIT) (PSEUDO "CUBBYHOLE"
+CUBBYHOLE-PSEUDO "MAPS" MAPS-PSEUDO)> 
+<ROOM TRANSPORTATION-SUPPLY (IN ROOMS) (DESC "Transportation Supply") (LDESC
+"You have just located a serious bug.") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>
+) (SOUTH TO ADMIN-CORRIDOR-N) (NORTH TO TRANSPORTATION-SUPPLY) (EAST TO
+TRANSPORTATION-SUPPLY) (WEST TO TRANSPORTATION-SUPPLY) (OUT TO ADMIN-CORRIDOR-N
+) (FLAGS RLANDBIT)> 
+<ROOM SMALL-OFFICE (IN ROOMS) (DESC "Small Office") (LDESC
+"You have entered a small office of some sort. A small desk faces the main
+doorway which lies to the east. Another exit leads west.") (C-MOVE <TABLE 0 0 0
+0 0 0 0 0 0 0 0 0>) (EAST TO ADMIN-CORRIDOR-N) (WEST TO LARGE-OFFICE) (FLAGS
+RLANDBIT FLOYDBIT ONBIT)> 
+<OBJECT SMALL-DESK (IN SMALL-OFFICE) (DESC "small desk") (SYNONYM DESK DRAWER)
+(ADJECTIVE SMALL) (CAPACITY 10) (FLAGS NDESCBIT CONTBIT SEARCHBIT) (ACTION
+DESK-F)> 
+<OBJECT KITCHEN-CARD (IN SMALL-DESK) (DESC "kitchen access card") (SYNONYM CARD
+CARDS) (ADJECTIVE KITCHEN ACCESS) (SIZE 3) (FLAGS TAKEBIT READBIT) (TEXT
+"The card is embossed \"kitcin akses kard.\"") (VALUE 1)> 
+<OBJECT UPPER-ELEVATOR-CARD (IN SMALL-DESK) (DESC "upper elevator access card")
+(SYNONYM CARD CARDS) (ADJECTIVE UPPER ELEVATOR ACCESS) (SIZE 3) (FLAGS VOWELBIT
+TAKEBIT READBIT) (TEXT "The card is embossed \"upur elivaatur akses kard.\"") (
+VALUE 1)> 
+<OBJECT SHUTTLE-CARD (IN LARGE-DESK) (DESC "shuttle access card") (SYNONYM CARD
+CARDS) (ADJECTIVE SHUTTL ACCESS) (SIZE 3) (FLAGS TAKEBIT READBIT) (TEXT
+"The card is embossed \"shutul akses kard.\"") (VALUE 1)> 
+<OBJECT LOWER-ELEVATOR-CARD (DESC "lower elevator access card") (SYNONYM CARD
+CARDS) (ADJECTIVE LOWER ELEVATOR ACCESS) (SIZE 3) (FLAGS TAKEBIT READBIT) (TEXT
+"The card is embossed \"loowur elivaatur akses kard.\"") (VALUE 1)> 
+<ROOM LARGE-OFFICE (IN ROOMS) (DESC "Large Office") (LDESC
+"This is a large, plush office. The far wall is one large picture window,
+scratched but unbroken, offering a view of this installation and the ocean
+beyond. In front of the window is a wide wooden desk. The only exit is east.")
+(C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (EAST TO SMALL-OFFICE) (FLAGS FLOYDBIT
+RLANDBIT ONBIT) (GLOBAL WINDOW OCEAN)> 
+<OBJECT LARGE-DESK (IN LARGE-OFFICE) (DESC "large desk") (SYNONYM DESK DRAWER)
+(ADJECTIVE LARGE WIDE WOODEN) (CAPACITY 20) (FLAGS CONTBIT SEARCHBIT NDESCBIT)
+(ACTION DESK-F)> 
+<DEFINE-ROUTINE DESK-F> 
+<ROOM MECH-CORRIDOR-N (IN ROOMS) (DESC "Mech Corridor North") (LDESC
+"Entrances to rooms lie to the east and west from this north-south hall.") (
+C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (EAST TO STORAGE-EAST) (WEST TO
+PHYSICAL-PLANT) (NORTH TO CORRIDOR-JUNCTION) (SOUTH TO MECH-CORRIDOR) (FLAGS
+RLANDBIT ONBIT)> 
+<ROOM MECH-CORRIDOR (IN ROOMS) (DESC "Mech Corridor") (LDESC
+"Entrances to rooms lie to the east and west from this north-south hall.") (
+C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (EAST TO REACTOR-CONTROL) (WEST TO
+PHYSICAL-PLANT) (NORTH TO MECH-CORRIDOR-N) (SOUTH TO MECH-CORRIDOR-S) (FLAGS
+RLANDBIT ONBIT)> 
+<ROOM MECH-CORRIDOR-S (IN ROOMS) (DESC "Mech Corridor South") (LDESC
+"The corridor ends here with doorways to the southwest, south, and southeast.")
+(C-MOVE <TABLE 0 0 0 0 0 0 25 0 25 0 0 0>) (NORTH TO MECH-CORRIDOR) (SW TO
+TOOL-ROOM) (SOUTH TO MACHINE-SHOP) (SE TO ROBOT-SHOP) (FLAGS RLANDBIT ONBIT)> 
+<ROOM STORAGE-EAST (IN ROOMS) (DESC "Storage East") (LDESC
+"A small room for storage. The exit is to the west.") (C-MOVE <TABLE 0 0 0 0 0
+0 0 0 0 0 0 0>) (WEST TO MECH-CORRIDOR-N) (FLAGS RLANDBIT FLOYDBIT ONBIT) (
+GLOBAL SHELVES)> 
+<OBJECT OIL-CAN (IN STORAGE-EAST) (DESC "oil can") (FDESC
+"One dusty shelf, otherwise bare, holds a small oil can.") (SYNONYM CAN) (
+ADJECTIVE SMALL OIL) (SIZE 10) (FLAGS VOWELBIT TAKEBIT) (ACTION OIL-CAN-F)> 
+<DEFINE-ROUTINE OIL-CAN-F> 
+<OBJECT CARTON (IN STORAGE-EAST) (DESC "cardboard box") (FDESC
+"On the floor beneath the shelves sits a small cardboard box.") (SYNONYM BOX
+CARTON) (ADJECTIVE SMALL CARDBOARD) (SIZE 10) (CAPACITY 50) (FLAGS TAKEBIT
+CONTBIT SEARCHBIT OPENBIT) (ACTION CARTON-F)> 
+<DEFINE-ROUTINE CARTON-F> 
+<OBJECT CRACKED-BOARD (IN CARTON) (DESC
+"cracked seventeen-centimeter fromitz board") (SYNONYM BOARD BOARDS) (ADJECTIVE
+CRACKED SEVENTEEN CENTIMETER FROMITZ) (SIZE 10) (FLAGS ACIDBIT TAKEBIT) (ACTION
+CRACKED-BOARD-F)> 
+<DEFINE-ROUTINE CRACKED-BOARD-F> 
+<OBJECT MEGAFUSE-B (IN CARTON) (DESC "B-series megafuse") (SYNONYM FUSE
+MEGAFUSE) (ADJECTIVE B-SERIES B SERIES MEGA) (SIZE 5) (FLAGS ACIDBIT TAKEBIT)> 
+<OBJECT MEGAFUSE-K (IN CARTON) (DESC "K-series megafuse") (SYNONYM FUSE
+MEGAFUSE) (ADJECTIVE K-SERIES K SERIES MEGA) (SIZE 5) (FLAGS ACIDBIT TAKEBIT)> 
+<OBJECT GOOD-BEDISTOR (IN CARTON) (DESC "good ninety-ohm bedistor") (SYNONYM
+BEDISTOR) (ADJECTIVE GOOD NINETY OHM) (SIZE 8) (FLAGS ACIDBIT TAKEBIT) (ACTION
+GOOD-BEDISTOR-F)> 
+<DEFINE-ROUTINE GOOD-BEDISTOR-F> 
+<ROOM PHYSICAL-PLANT (IN ROOMS) (DESC "Physical Plant") (LDESC
+"This is a huge, dim room with exits in the northeast and southeast
+corners. The room is criss-crossed with catwalks and is filled with
+heavy equipment presumably intended to heat and ventilate this complex.
+Hardly any of the equipment is still operating.") (C-MOVE <TABLE 0 0 0 0 0 0 0
+0 0 0 0 0>) (NE TO MECH-CORRIDOR-N) (SE TO MECH-CORRIDOR) (FLAGS FLOYDBIT
+RLANDBIT ONBIT) (PSEUDO "EQUIPM" EQUIPMENT-PSEUDO "CATWALK" CATWALK-PSEUDO)> 
+<ROOM REACTOR-CONTROL (IN ROOMS) (DESC "Reactor Control") (LDESC
+"This room contains many dials and gauges for controlling a massive planetary
+power reactor which, according to a diagram on the wall, must be buried far
+below this very complex. The exit is to the west. To the east is a metal door,
+and next to it, a button. A dark stairway winds downward.") (C-MOVE <TABLE 0 0
+20 0 0 0 0 0 0 0 0 0>) (WEST TO MECH-CORRIDOR) (EAST TO REACTOR-ELEVATOR IF
+REACTOR-ELEVATOR-DOOR IS OPEN) (IN TO REACTOR-ELEVATOR IF REACTOR-ELEVATOR-DOOR
+IS OPEN) (DOWN TO REACTOR-ACCESS-STAIRS) (FLAGS RLANDBIT FLOYDBIT ONBIT) (
+PSEUDO "BUTTON" REACTOR-BUTTON-PSEUDO "DIAGRAM" DIAGRAM-PSEUDO) (GLOBAL
+CONTROLS STAIRS REACTOR-ELEVATOR-DOOR)> 
+<ROOM REACTOR-ACCESS-STAIRS (IN ROOMS) (DESC "Reactor Access Stairs") (LDESC
+"You have just located a serious bug.") (C-MOVE <TABLE 0 0 0 30 0 0 0 0 0 0 0 0
+>) (DOWN TO REACTOR-ACCESS-STAIRS) (UP TO REACTOR-CONTROL) (FLAGS RLANDBIT) (
+GLOBAL STAIRS)> 
+<OBJECT REACTOR-ELEVATOR-DOOR (IN LOCAL-GLOBALS) (DESC "reactor elevator door")
+(SYNONYM DOOR) (ADJECTIVE REACTOR ELEVATOR) (FLAGS DOORBIT) (ACTION
+REACTOR-ELEVATOR-DOOR-F)> 
+<DEFINE-ROUTINE REACTOR-ELEVATOR-DOOR-F> 
+<DEFINE-ROUTINE I-REACTOR-DOOR-CLOSE> 
+<ROOM REACTOR-ELEVATOR (IN ROOMS) (DESC "Reactor Elevator") (LDESC
+"This is an elevator with a door to the west, currently open. A control panel
+contains an Up button, a Down button, and a small slot.") (C-MOVE <TABLE 0 0 0
+0 0 0 0 0 0 0 0 0>) (WEST TO REACTOR-CONTROL) (OUT TO REACTOR-CONTROL) (FLAGS
+RLANDBIT ONBIT) (GLOBAL REACTOR-ELEVATOR-DOOR SLOT ELEVATOR-BUTTON CONTROLS)> 
+<ROOM TOOL-ROOM (IN ROOMS) (DESC "Tool Room") (LDESC
+"This is apparently a storage room for tools. Exits lead northeast and east.")
+(C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 25 0>) (NE TO MECH-CORRIDOR-S) (EAST TO
+MACHINE-SHOP) (FLAGS RLANDBIT FLOYDBIT ONBIT) (GLOBAL SHELVES)> 
+<OBJECT FLASK (IN TOOL-ROOM) (DESC "glass flask") (FDESC
+"Sitting on the floor below the lowest shelf is a large glass flask.") (SYNONYM
+FLASK) (ADJECTIVE GLASS LARGE PLASTIC) (SIZE 10) (CAPACITY 2) (FLAGS CONTBIT
+SEARCHBIT OPENBIT TAKEBIT) (ACTION FLASK-F)> 
+<DEFINE-ROUTINE FLASK-F> 
+<OBJECT MAGNET (IN TOOL-ROOM) (SIZE 10) (DESC "curved metal bar") (FDESC
+"On an upper shelf is a metal bar, curved into a U-shape.") (SYNONYM MAGNET BAR
+) (ADJECTIVE CURVED METAL HORSESHOE) (FLAGS TRYTAKEBIT TAKEBIT) (ACTION
+MAGNET-F)> 
+<DEFINE-ROUTINE MAGNET-F> 
+<DEFINE-ROUTINE I-MAGNET> 
+<OBJECT PLIERS (IN TOOL-ROOM) (DESC "pair of wide-nosed pliers") (SYNONYM PAIR
+PLIERS) (ADJECTIVE WIDE-NOSED WIDE NOSED) (SIZE 15) (FLAGS TAKEBIT)> 
+<ROOM MACHINE-SHOP (IN ROOMS) (DESC "Machine Shop") (C-MOVE <TABLE 0 0 0 0 0 0
+0 0 0 0 0 0>) (NORTH TO MECH-CORRIDOR-S) (EAST TO ROBOT-SHOP) (WEST TO
+TOOL-ROOM) (FLAGS RLANDBIT FLOYDBIT ONBIT) (PSEUDO "SPOUT" CHEM-SPOUT-PSEUDO) (
+ACTION MACHINE-SHOP-F)> 
+<DEFINE-ROUTINE MACHINE-SHOP-F> 
+<OBJECT CHEMICAL-DISPENSER (IN MACHINE-SHOP) (DESC "chemical dispenser") (
+SYNONYM DISPEN MACHIN) (ADJECTIVE DISPEN LARGE CHEMICAL) (FLAGS MUNGBIT
+NDESCBIT) (ACTION CHEMICAL-DISPENSER-F)> 
+<GLOBAL SPOUT-PLACED <> %<> WORD> 
+<DEFINE-ROUTINE CHEMICAL-DISPENSER-F> 
+<OBJECT RED-BUTTON (IN MACHINE-SHOP) (DESC "red button") (SYNONYM BUTTON) (
+ADJECTIVE RED) (FLAGS NDESCBIT) (C-MOVE 1) (ACTION CHEM-BUTTON-F)> 
+<OBJECT BLUE-BUTTON (IN MACHINE-SHOP) (DESC "blue button") (SYNONYM BUTTON) (
+ADJECTIVE BLUE) (FLAGS NDESCBIT) (C-MOVE 2) (ACTION CHEM-BUTTON-F)> 
+<OBJECT GREEN-BUTTON (IN MACHINE-SHOP) (DESC "green button") (SYNONYM BUTTON) (
+ADJECTIVE GREEN) (FLAGS NDESCBIT) (C-MOVE 3) (ACTION CHEM-BUTTON-F)> 
+<OBJECT YELLOW-BUTTON (IN MACHINE-SHOP) (DESC "yellow button") (SYNONYM BUTTON)
+(ADJECTIVE YELLOW) (FLAGS NDESCBIT) (C-MOVE 4) (ACTION CHEM-BUTTON-F)> 
+<OBJECT GRAY-BUTTON (IN MACHINE-SHOP) (DESC "gray button") (SYNONYM BUTTON) (
+ADJECTIVE GRAY GREY) (FLAGS NDESCBIT) (C-MOVE 5) (ACTION CHEM-BUTTON-F)> 
+<OBJECT BROWN-BUTTON (IN MACHINE-SHOP) (DESC "brown button") (SYNONYM BUTTON) (
+ADJECTIVE BROWN) (FLAGS NDESCBIT) (C-MOVE 6) (ACTION CHEM-BUTTON-F)> 
+<OBJECT BLACK-BUTTON (IN MACHINE-SHOP) (DESC "black button") (SYNONYM BUTTON) (
+ADJECTIVE BLACK) (FLAGS NDESCBIT) (C-MOVE 7) (ACTION CHEM-BUTTON-F)> 
+<OBJECT ROUND-WHITE-BUTTON (IN MACHINE-SHOP) (DESC "round white button") (
+SYNONYM BUTTON) (ADJECTIVE WHITE ROUND) (FLAGS NDESCBIT) (C-MOVE 8) (ACTION
+CHEM-BUTTON-F)> 
+<OBJECT SQUARE-WHITE-BUTTON (IN MACHINE-SHOP) (DESC "square white button") (
+SYNONYM BUTTON) (ADJECTIVE SQUARE WHITE) (FLAGS NDESCBIT) (C-MOVE 9) (ACTION
+CHEM-BUTTON-F)> 
+<GLOBAL CHEMICAL-FLAG 0 %<> WORD> 
+<GLOBAL COLOR-LTBL <PLTABLE "red" "blue" "green" "yellow" "gray" "brown"
+"black" "clear" "clear"> %<> WORD> 
+<DEFINE-ROUTINE CHEM-BUTTON-F> 
+<ROOM ROBOT-SHOP (IN ROOMS) (DESC "Robot Shop") (LDESC
+"This room, with exits west and northwest, is filled with robot-like
+devices of every conceivable description, all in various states of
+disassembly.") (C-MOVE <TABLE 0 0 0 0 25 0 0 0 0 0 0 0>) (WEST TO MACHINE-SHOP)
+(NW TO MECH-CORRIDOR-S) (FLAGS RLANDBIT FLOYDBIT ONBIT) (PSEUDO "DEVICE"
+DEVICES-PSEUDO)> 
+<OBJECT FLOYD (IN ROBOT-SHOP) (DESC "multiple purpose robot") (FDESC
+"Only one robot, about four feet high, looks even remotely close to being
+in working order.") (SYNONYM FLOYD COMPAR ROBOT COMPAN) (ADJECTIVE MULTIP
+PURPOS DIM- DIM WITTED) (FLAGS CONTBIT SEARCHBIT TRANSBIT OPENBIT LIGHTBIT) (
+CAPACITY 5) (ACTION FLOYD-F)> 
+<GLOBAL CARD-STOLEN <> %<> WORD> 
+<DEFINE-ROUTINE FLOYD-F> 
+<DEFINE-ROUTINE FLOYDS-FAMOUS-DOOR-ROUTINE> 
+<DEFINE-ROUTINE FLUSH> 
+<DEFINE-ROUTINE FLOYD-INTO-LAB> 
+<DEFINE-ROUTINE FLOYD-NOT-HAVE> 
+<GLOBAL FLOYD-SCORE-FLAG <> %<> WORD> 
+<GLOBAL FLOYD-SPOKE <> %<> WORD> 
+<GLOBAL FLOYD-FOLLOW <> %<> WORD> 
+<GLOBAL FLOYD-REACTIVATED <> %<> WORD> 
+<GLOBAL FLOYD-INTRODUCED <> %<> WORD> 
+<DEFINE-ROUTINE FLOYD-COMES-ALIVE> 
+<DEFINE-ROUTINE I-FLOYD> 
+<DEFINE-ROUTINE CALL-ME-FLOYD> 
+<DEFINE-ROUTINE KLUDGE> 
+<OBJECT DEAD-FLOYD (DESC "mangled robot") (LDESC
+"Your former companion, Floyd, is lying on the ground in a pool of oil.") (
+SYNONYM FLOYD ROBOT COMPAN) (ADJECTIVE MANGLE DEAD FORMER) (ACTION DEAD-FLOYD-F
+)> 
+<DEFINE-ROUTINE DEAD-FLOYD-F> 
+<GLOBAL FLOYDISMS <PLTABLE "paces impatiently"
+"absent-mindedly recites the first six hundred digits of pi"
+"lowers his voice and tells you the latest rumors about Dr. Fizpick"
+"recalls the time he bruised his knee" "chants the death scene from \"Carmen\""
+"cranes his neck to see what you are doing"
+"rubs his head affectionately against your shoulder"
+"asks if you want to play Hucka-Bucka-Beanstalk"
+"examines himself for signs of rust" "absent-mindedly oils one of his joints"
+"wanders restlessly around the room"
+"notices a mouse scurrying by and tries to hide behind you"
+"sings an ancient ballad, totally out of key"
+"frets about the possibility of his batteries failing"
+"reminisces about his friend Lazarus, a medical robot"
+"relates some fond memories about his robotic friend Lazarus"
+"whistles tunelessly"
+"tells you about the time he helped someone sharpen a pencil"
+"yawns and looks bored"
+"produces a crayon from one of his compartments and scrawls
+his name on the wall"> %<> WORD> 
+<ROOM ELEVATOR-LOBBY (IN ROOMS) (DESC "Elevator Lobby") (C-MOVE <TABLE 0 0 0 0
+0 30 0 0 0 0 0 0>) (NORTH PER ELEVATOR-ENTER-F) (SOUTH PER ELEVATOR-ENTER-F) (
+WEST TO CORRIDOR-JUNCTION) (EAST TO BOOTH-2) (IN TO BOOTH-2) (FLAGS RLANDBIT
+FLOYDBIT ONBIT) (GLOBAL UPPER-ELEVATOR-DOOR LOWER-ELEVATOR-DOOR) (PSEUDO
+"BOOTH" NEAR-BOOTH-PSEUDO) (ACTION ELEVATOR-LOBBY-F)> 
+<DEFINE-ROUTINE ELEVATOR-LOBBY-F> 
+<ROOM UPPER-ELEVATOR (IN ROOMS) (DESC "Upper Elevator") (C-MOVE <TABLE 0 0 0 0
+0 0 0 0 0 0 0 0>) (OUT PER ELEVATOR-EXIT-F) (SOUTH PER ELEVATOR-EXIT-F) (UP
+"You'll have to use the elevator controls.") (DOWN
+"You'll have to use the elevator controls.") (FLAGS RLANDBIT ONBIT) (GLOBAL
+LIGHTS CONTROLS SLOT ELEVATOR-BUTTON UPPER-ELEVATOR-DOOR) (ACTION
+UPPER-ELEVATOR-F)> 
+<DEFINE-ROUTINE UPPER-ELEVATOR-F> 
+<ROOM LOWER-ELEVATOR (IN ROOMS) (DESC "Lower Elevator") (C-MOVE <TABLE 0 0 0 0
+0 0 0 0 0 0 0 0>) (NORTH PER ELEVATOR-EXIT-F) (OUT PER ELEVATOR-EXIT-F) (UP
+"You'll have to use the elevator controls.") (DOWN
+"You'll have to use the elevator controls.") (FLAGS RLANDBIT ONBIT) (GLOBAL
+LIGHTS CONTROLS SLOT ELEVATOR-BUTTON LOWER-ELEVATOR-DOOR) (ACTION
+LOWER-ELEVATOR-F)> 
+<DEFINE-ROUTINE LOWER-ELEVATOR-F> 
+<DEFINE-ROUTINE ELEVATOR-ENTER-F> 
+<DEFINE-ROUTINE ELEVATOR-EXIT-F> 
+<OBJECT UPPER-ELEVATOR-DOOR (IN LOCAL-GLOBALS) (DESC "blue door") (SYNONYM DOOR
+) (ADJECTIVE UPPER ELEVATOR BLUE) (FLAGS NDESCBIT DOORBIT) (ACTION
+UPPER-ELEVATOR-DOOR-F)> 
+<DEFINE-ROUTINE UPPER-ELEVATOR-DOOR-F> 
+<OBJECT LOWER-ELEVATOR-DOOR (IN LOCAL-GLOBALS) (DESC "red door") (SYNONYM DOOR)
+(ADJECTIVE RED LOWER ELEVATOR METAL) (FLAGS NDESCBIT DOORBIT) (ACTION
+LOWER-ELEVATOR-DOOR-F)> 
+<DEFINE-ROUTINE LOWER-ELEVATOR-DOOR-F> 
+<DEFINE-ROUTINE DOOR-CLOSED> 
+<OBJECT BLUE-ELEVATOR-BUTTON (IN ELEVATOR-LOBBY) (DESC "blue button") (SYNONYM
+BUTTON) (ADJECTIVE BLUE NORTH) (FLAGS NDESCBIT) (ACTION BLUE-ELEVATOR-BUTTON-F)
+> 
+<OBJECT RED-ELEVATOR-BUTTON (IN ELEVATOR-LOBBY) (DESC "red button") (SYNONYM
+BUTTON) (ADJECTIVE RED SOUTH) (FLAGS NDESCBIT) (ACTION RED-ELEVATOR-BUTTON-F)> 
+<DEFINE-ROUTINE BLUE-ELEVATOR-BUTTON-F> 
+<DEFINE-ROUTINE RED-ELEVATOR-BUTTON-F> 
+<DEFINE-ROUTINE I-UPPER-ELEVATOR-ARRIVE> 
+<DEFINE-ROUTINE I-LOWER-ELEVATOR-ARRIVE> 
+<OBJECT ELEVATOR-BUTTON (IN LOCAL-GLOBALS) (DESC "button") (SYNONYM BUTTON) (
+FLAGS NDESCBIT) (ACTION ELEVATOR-BUTTON-F)> 
+<GLOBAL LOWER-ELEVATOR-UP <> %<> WORD> 
+<GLOBAL UPPER-ELEVATOR-UP T %<> WORD> 
+<GLOBAL ELEVATOR-IN-TRANSIT <> %<> WORD> 
+<GLOBAL LOWER-ELEVATOR-ON <> %<> WORD> 
+<GLOBAL UPPER-ELEVATOR-ON <> %<> WORD> 
+<DEFINE-ROUTINE ELEVATOR-BUTTON-F> 
+<DEFINE-ROUTINE I-TURNOFF-UPPER-ELEVATOR> 
+<DEFINE-ROUTINE I-TURNOFF-LOWER-ELEVATOR> 
+<GLOBAL ELEVATOR-LIGHT-OFF "A recording says \"Elevator no longer enabled.\"" %
+<> WORD> 
+<GLOBAL ELEVATOR-STARTS
+"The elevator door slides shut. After a moment, you feel a sensation of
+vertical movement." %<> WORD> 
+<DEFINE-ROUTINE I-UPPER-ELEVATOR-TRIP> 
+<DEFINE-ROUTINE I-LOWER-ELEVATOR-TRIP> 
+<DEFINE-ROUTINE ELEVATOR-DOOR-OPENS> 
+<ROOM BOOTH-2 (IN ROOMS) (DESC "Booth 2") (LDESC
+"This is a tiny room with a large \"2\" painted on the wall. A panel contains
+a slot about ten centimeters wide, a brown button labelled \"1\" and a tan
+button labelled \"3.\"") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (WEST TO
+ELEVATOR-LOBBY) (OUT TO ELEVATOR-LOBBY) (FLAGS RLANDBIT ONBIT) (PSEUDO "BOOTH"
+IN-BOOTH-PSEUDO) (GLOBAL CONTROLS SLOT TELEPORTATION-BUTTON-1
+TELEPORTATION-BUTTON-3)> 
+<ROOM TOWER-CORE (IN ROOMS) (DESC "Tower Core") (LDESC
+"This is a small, circular room. A sliding door leads north, and a spiral
+staircase heads upwards. Other exits lie to the northeast and southwest.") (
+C-MOVE <TABLE 0 0 0 30 0 0 0 0 0 0 0 0>) (NORTH TO UPPER-ELEVATOR) (UP TO
+HELIPAD) (SW TO OBSERVATION-DECK) (NE TO COMM-ROOM) (FLAGS RLANDBIT ONBIT) (
+VALUE 4) (GLOBAL STAIRS UPPER-ELEVATOR-DOOR)> 
+<ROOM HELIPAD (IN ROOMS) (DESC "Helipad") (LDESC
+"You are at the center of a wide, flat area atop the tower. A fence
+prevents you from approaching the perimeter, so your view is limited to
+cloud-filled sky. A large vehicle, severely weathered and topped with rotor
+blades, lies nearby. A spiral staircase leads down into the tower.") (C-MOVE <
+TABLE 0 0 15 0 0 0 0 0 0 0 0 0>) (DOWN TO TOWER-CORE) (IN TO HELICOPTER) (EAST
+"A fence keeps you away from the edge, where you would probably
+be swept over the brink by the high winds.") (WEST
+"A fence keeps you away from the edge, where you would probably
+be swept over the brink by the high winds.") (NORTH
+"A fence keeps you away from the edge, where you would probably
+be swept over the brink by the high winds.") (SOUTH
+"A fence keeps you away from the edge, where you would probably
+be swept over the brink by the high winds.") (FLAGS RLANDBIT ONBIT) (PSEUDO
+"FENCE" FENCE-PSEUDO) (GLOBAL STAIRS HELICOPTER-OBJECT)> 
+<OBJECT HELICOPTER-OBJECT (IN LOCAL-GLOBALS) (DESC "large vehicle") (SYNONYM
+VEHICLE HELICOPTER) (ADJECTIVE LARGE) (FLAGS VEHBIT NDESCBIT) (ACTION
+HELICOPTER-OBJECT-F)> 
+<DEFINE-ROUTINE HELICOPTER-OBJECT-F> 
+<ROOM HELICOPTER (IN ROOMS) (DESC "Helicopter") (LDESC
+"This is a large vehicle with a lot of cargo space. A complex control panel
+is closed and locked. Everything is covered with a thick layer of rust.
+Through the windows of the vehicle you can see a wide Helipad, and beyond
+that, endless ocean far below. Several doors lead out to the Helipad.") (C-MOVE
+<TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (OUT TO HELIPAD) (FLAGS RLANDBIT ONBIT) (
+PSEUDO "LOCK" LOCK-PSEUDO) (GLOBAL OCEAN CONTROLS WINDOW HELICOPTER-OBJECT)> 
+<ROOM COMM-ROOM (IN ROOMS) (DESC "Comm Room") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0
+0 0 0>) (SW TO TOWER-CORE) (FLAGS RLANDBIT ONBIT) (GLOBAL LIGHTS) (PSEUDO
+"CABLES" CABLES-PSEUDO "ENUNCI" ENUNCIATOR-PSEUDO) (ACTION COMM-ROOM-F)> 
+<DEFINE-ROUTINE COMM-ROOM-F> 
+<GLOBAL JUST-ENTERED T %<> WORD> 
+<DEFINE-ROUTINE I-UNENTER> 
+<OBJECT RECEIVE-CONSOLE (IN COMM-ROOM) (DESC "communications receive console")
+(C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (SYNONYM CONSOLE CONTRO) (ADJECTIVE
+COMMUNICATIONS RECEIVE LEFT FIRST) (FLAGS NDESCBIT)> 
+<OBJECT PLAYBACK-BUTTON (IN COMM-ROOM) (DESC "glowing button") (SYNONYM BUTTON)
+(ADJECTIVE GLOWIN PLAYBA) (FLAGS NDESCBIT) (ACTION PLAYBACK-BUTTON-F)> 
+<DEFINE-ROUTINE PLAYBACK-BUTTON-F> 
+<OBJECT SEND-CONSOLE (IN COMM-ROOM) (DESC "communication send console") (
+SYNONYM CONSOLE CONTRO) (ADJECTIVE COMMUNICATIONS SEND RIGHT SECOND) (FLAGS
+NDESCBIT)> 
+<OBJECT COMM-SCREEN (IN COMM-ROOM) (DESC "screen") (SYNONYM COMMUNICATIONS
+MESSAGE SCREEN) (FLAGS NDESCBIT READBIT) (TEXT
+"\"Tuu enee ship uv xe Sekund Galaktik Yuunyun: Planitwiid plaag haz struk
+entiir popyuulaashun. Tiim iz kritikul. Eemurjensee asistins reekwestid.
+<reepeet mesij>\"")> 
+<OBJECT FUNNEL-HOLE (IN COMM-ROOM) (DESC "funnel-shaped hole") (SYNONYM HOLE) (
+ADJECTIVE FUNNEL SHAPED) (FLAGS NDESCBIT)> 
+<OBJECT CHEMICAL-FLUID (DESC "quantity of chemical fluid") (SYNONYM QUANTITY
+LIQUID FLUID CHEMICAL) (ADJECTIVE MILKY WHITE CHEMICAL) (ACTION
+CHEMICAL-FLUID-F)> 
+<DEFINE-ROUTINE RANDOMIZE-ORDER> 
+<GLOBAL ORDER-LTBL <LTABLE 0 0 0 0 0 0 0> %<> WORD> 
+<DEFINE-ROUTINE CHEMICAL-FLUID-F> 
+<DEFINE-ROUTINE CUBE-SEEMS> 
+<DEFINE-ROUTINE CHEMICAL-POURS> 
+<DEFINE-ROUTINE STRIP-DISSOLVES> 
+<GLOBAL COMM-SHUTDOWN <> %<> WORD> 
+<DEFINE-ROUTINE SHUTDOWN> 
+<DEFINE-ROUTINE COMM-SETUP> 
+<GLOBAL COMM-FIXED <> %<> WORD> 
+<GLOBAL CHEMICAL-REQUIRED 0 %<> WORD> 
+<GLOBAL STEPS-TO-GO 0 %<> WORD> 
+<ROOM OBSERVATION-DECK (IN ROOMS) (DESC "Observation Deck") (LDESC
+"This is a balcony girdling the tower. The view is breathtaking; the tower
+must be half a kilometer tall. From here it is clear that you are on an
+island. The dormitory section of the complex is visible on the other side
+of the island, and the rest of the complex sprawls out directly below. In
+the distance, about 20 kilometers to the east, you can spot another island
+similar to this one. The only exit is a doorway leading northeast.") (C-MOVE <
+TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (NE TO TOWER-CORE) (FLAGS RLANDBIT ONBIT) (
+GLOBAL OCEAN)> 
+<ROOM WAITING-AREA (IN ROOMS) (DESC "Waiting Area") (LDESC
+"This is a concrete platform sparsely furnished with benches. The platform
+continues to the east, and to the south is a metal door.") (C-MOVE <TABLE 0 0 0
+0 0 0 0 0 0 0 0 0>) (EAST TO KALAMONTEE-PLATFORM) (SOUTH PER
+OTHER-ELEVATOR-ENTER-F) (IN PER OTHER-ELEVATOR-ENTER-F) (PSEUDO "BENCH"
+BENCH-PSEUDO "BENCHE" BENCH-PSEUDO) (GLOBAL LOWER-ELEVATOR-DOOR) (FLAGS
+RLANDBIT ONBIT)> 
+<DEFINE-ROUTINE OTHER-ELEVATOR-ENTER-F> 
+<ROOM KALAMONTEE-PLATFORM (IN ROOMS) (DESC "Kalamontee Platform") (C-MOVE <
+TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (WEST TO WAITING-AREA) (SOUTH PER
+SHUTTLE-ENTER-F) (NORTH PER SHUTTLE-ENTER-F) (FLAGS RLANDBIT ONBIT) (VALUE 4) (
+GLOBAL GLOBAL-SHUTTLE) (ACTION KALAMONTEE-PLATFORM-F)> 
+<DEFINE-ROUTINE KALAMONTEE-PLATFORM-F> 

@@ -1,0 +1,687 @@
+
+<ROOM LAWANDA-PLATFORM (IN ROOMS) (DESC "Lawanda Platform") (C-MOVE <TABLE 0 0
+0 30 0 0 0 0 0 0 0 0>) (NORTH PER SHUTTLE-ENTER-F) (SOUTH PER SHUTTLE-ENTER-F)
+(EAST TO ESCALATOR) (UP TO ESCALATOR) (FLAGS FLOYDBIT RLANDBIT ONBIT) (VALUE 4)
+(GLOBAL GLOBAL-SHUTTLE STAIRS) (PSEUDO "ESCALATOR" ESCALATOR-PSEUDO) (ACTION
+LAWANDA-PLATFORM-F)> 
+<GLOBAL LAWANDA-PLATFORM-FLAG <> %<> WORD> 
+<DEFINE-ROUTINE LAWANDA-PLATFORM-F> 
+<ROOM ESCALATOR (IN ROOMS) (DESC "Escalator") (LDESC
+"You are in the middle of a long mechanical stairway. It is not running,
+and seems to be in disrepair.") (C-MOVE <TABLE 0 0 15 30 0 0 0 0 0 0 0 0>) (UP
+TO FORK) (EAST TO FORK) (DOWN TO LAWANDA-PLATFORM) (WEST TO LAWANDA-PLATFORM) (
+GLOBAL STAIRS) (PSEUDO "ESCALATOR" ESCALATOR-PSEUDO) (FLAGS RLANDBIT FLOYDBIT
+ONBIT)> 
+<ROOM FORK (IN ROOMS) (DESC "Fork") (LDESC
+"This is a hallway which forks to the northeast and southeast. To the west
+is the top of a long escalator.") (C-MOVE <TABLE 0 0 15 0 0 0 0 0 25 0 25 0>) (
+WEST TO ESCALATOR) (DOWN TO ESCALATOR) (NE TO SYSTEMS-CORRIDOR-WEST) (SE TO
+PROJECT-CORRIDOR-WEST) (GLOBAL STAIRS) (PSEUDO "ESCALATOR" ESCALATOR-PSEUDO) (
+FLAGS FLOYDBIT RLANDBIT ONBIT)> 
+<ROOM INFIRMARY (IN ROOMS) (DESC "Infirmary") (LDESC
+"You have entered a clean, well-lighted place. There are a number of beds,
+some complicated looking equipment, and many shelves that are mostly bare.") (
+C-MOVE <TABLE 25 0 0 0 0 0 0 0 25 0 0 0>) (SE TO SYSTEMS-CORRIDOR-WEST) (OUT TO
+SYSTEMS-CORRIDOR-WEST) (FLAGS RLANDBIT ONBIT) (GLOBAL BED SHELVES) (PSEUDO
+"EQUIPM" EQUIPMENT-PSEUDO "MACHIN" EQUIPMENT-PSEUDO) (ACTION INFIRMARY-F)> 
+<OBJECT LAZARUS-PART (DESC "medical robot breastplate") (SYNONYM LAZARUS PART
+BREAST PLATE) (ADJECTIVE MEDICAL BREAST) (SIZE 35) (FLAGS TAKEBIT)> 
+<GLOBAL LAZARUS-FLAG <> %<> WORD> 
+<DEFINE-ROUTINE INFIRMARY-F> 
+<OBJECT RED-SPOOL (IN INFIRMARY) (DESC "red spool") (FDESC
+"Lying on one of the beds is a small red spool.") (SYNONYM SPOOL SPOOLS OBJECT)
+(ADJECTIVE RED SMALL) (SIZE 3) (TEXT
+"The spool is labelled \"Simptumz uv Xe Dizeez.\"") (FLAGS TAKEBIT ACIDBIT
+READBIT) (ACTION RED-SPOOL-F)> 
+<DEFINE-ROUTINE RED-SPOOL-F> 
+<OBJECT MEDICINE-BOTTLE (IN INFIRMARY) (DESC "medicine bottle") (FDESC
+"On a low shelf is a translucent bottle with a small white label.") (SYNONYM
+BOTTLE LABEL) (ADJECTIVE MEDICINE SMALL WHITE TRANSL) (SIZE 7) (CAPACITY 7) (
+TEXT "\"Dizeez supreshun medisin -- eksperimentul\"") (FLAGS CONTBIT SEARCHBIT
+TAKEBIT TRANSBIT READBIT)> 
+<OBJECT MEDICINE (IN MEDICINE-BOTTLE) (DESC "quantity of medicine") (FDESC
+"At the bottom of the bottle is a small quantity of medicine.") (SYNONYM
+MEDICINE) (ADJECTIVE SMALL QUANTITY EXPERIMENTAL) (SIZE 7) (FLAGS FOODBIT) (
+ACTION MEDICINE-F)> 
+<DEFINE-ROUTINE MEDICINE-F> 
+<ROOM REPAIR-ROOM (IN ROOMS) (DESC "Repair Room") (LDESC
+"You are in a dimly lit room, filled with strange machines and wide storage
+cabinets, all locked. To the south, a narrow stairway leads upward. On the
+north wall of the room is a very small doorway.") (C-MOVE <TABLE 0 0 0 30 0 0 0
+0 0 0 0 0>) (UP TO SYSTEMS-CORRIDOR-WEST) (SOUTH TO SYSTEMS-CORRIDOR-WEST) (
+NORTH "It is a robot-sized doorway -- a bit too small for you.") (FLAGS
+RLANDBIT FLOYDBIT ONBIT) (GLOBAL STAIRS) (PSEUDO "CABINETS" CABINETS-PSEUDO
+"MACHIN" EQUIPMENT-PSEUDO)> 
+<GLOBAL ACHILLES-FLAG <> %<> WORD> 
+<OBJECT ACHILLES (IN REPAIR-ROOM) (DESC "broken robot") (LDESC
+"Lying face down at the bottom of the stairs is a motionless robot. It
+appears to be damaged beyond repair.") (SYNONYM ROBOT ACHILLES) (ADJECTIVE
+BROKEN DEAD)> 
+<OBJECT ROBOT-HOLE (IN REPAIR-ROOM) (DESC "small doorway") (SYNONYM DOOR DOORWA
+HOLE) (ADJECTIVE SMALL VERY) (FLAGS NDESCBIT TRANSBIT CONTBIT) (CAPACITY 0) (
+ACTION ROBOT-HOLE-F)> 
+<DEFINE-ROUTINE ROBOT-HOLE-F> 
+<GLOBAL HOLE-TRIP-FLAG <> %<> WORD> 
+<DEFINE-ROUTINE FLOYD-THROUGH-HOLE> 
+<OBJECT GOOD-BOARD (IN ROBOT-HOLE) (DESC
+"shiny seventeen-centimeter fromitz board") (SYNONYM BOARD BOARDS) (ADJECTIVE
+SHINY GOOD SEVENTEEN CENTIMETER FROMITZ) (SIZE 10) (FLAGS ACIDBIT INVISIBLE
+NDESCBIT) (ACTION GOOD-BOARD-F)> 
+<DEFINE-ROUTINE GOOD-BOARD-F> 
+<GLOBAL BOARD-REPORTED <> %<> WORD> 
+<ROOM SYSTEMS-CORRIDOR-WEST (IN ROOMS) (DESC "Systems Corridor West") (LDESC
+"The corridor bends here, leading east and southwest. A doorway opens
+to the northwest, and a narrow stairway leads down to the north.") (C-MOVE <
+TABLE 0 0 15 0 0 0 25 0 0 0 0 0>) (NW TO INFIRMARY) (NORTH TO REPAIR-ROOM) (
+DOWN TO REPAIR-ROOM) (EAST TO SYSTEMS-CORRIDOR) (SW TO FORK) (FLAGS ONBIT
+RLANDBIT) (GLOBAL STAIRS)> 
+<ROOM SYSTEMS-CORRIDOR (IN ROOMS) (DESC "Systems Corridor") (LDESC
+"This section of hallway has a doorway to the north labelled \"Planateree
+Deefens.\" The corridor continues east and west.") (C-MOVE <TABLE 0 0 0 0 0 0 0
+0 0 0 0 0>) (NORTH TO PLANETARY-DEFENSE) (WEST TO SYSTEMS-CORRIDOR-WEST) (EAST
+TO SYSTEMS-CORRIDOR-EAST) (FLAGS RLANDBIT ONBIT)> 
+<ROOM SYSTEMS-CORRIDOR-EAST (IN ROOMS) (DESC "Systems Corridor East") (LDESC
+"The hallway ends here with a large doorway leading east, and smaller doorways
+to the north and south. The northern doorway is labelled \"Planateree Kors
+Kontrool.\" The hallway itself leads west.") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0
+0 0>) (WEST TO SYSTEMS-CORRIDOR) (SOUTH TO LIBRARY-LOBBY) (NORTH TO
+PLANETARY-COURSE-CONTROL) (EAST TO PHYSICAL-PLANT-TWO) (FLAGS RLANDBIT ONBIT)> 
+<ROOM PHYSICAL-PLANT-TWO (IN ROOMS) (DESC "Physical Plant") (LDESC
+"This is an enormous room full of environmental control equipment presumably
+intended to heat and ventilate the Lawanda Complex. Oddly, although the
+Lawanda Complex is slightly smaller than its counterpart, this plant is much
+larger than the one in the Kalamontee Complex. The only exit is westward.") (
+C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (WEST TO SYSTEMS-CORRIDOR-EAST) (OUT TO
+SYSTEMS-CORRIDOR-EAST) (FLAGS FLOYDBIT RLANDBIT ONBIT) (PSEUDO "EQUIPM"
+EQUIPMENT-PSEUDO)> 
+<GLOBAL DEFENSE-FIXED <> %<> WORD> 
+<GLOBAL COURSE-CONTROL-FIXED <> %<> WORD> 
+<GLOBAL ACCESS-PANEL-FULL T %<> WORD> 
+<ROOM PLANETARY-DEFENSE (IN ROOMS) (DESC "Planetary Defense") (C-MOVE <TABLE 0
+0 0 0 0 0 0 0 0 0 0 0>) (SOUTH TO SYSTEMS-CORRIDOR) (OUT TO SYSTEMS-CORRIDOR) (
+FLAGS RLANDBIT FLOYDBIT ONBIT) (GLOBAL CONTROLS LIGHTS) (ACTION
+PLANETARY-DEFENSE-F)> 
+<DEFINE-ROUTINE PLANETARY-DEFENSE-F> 
+<OBJECT ACCESS-PANEL (IN PLANETARY-DEFENSE) (DESC "access panel") (SYNONYM
+PANEL DOOR SOCKET) (ADJECTIVE SMALL ACCESS REPAIR) (FLAGS VOWELBIT NDESCBIT
+CONTBIT SEARCHBIT) (CAPACITY 40) (ACTION ACCESS-PANEL-F)> 
+<DEFINE-ROUTINE ACCESS-PANEL-F> 
+<OBJECT FIRST-BOARD (IN ACCESS-PANEL) (DESC
+"first seventeen-centimeter fromitz board") (SYNONYM BOARD BOARDS) (ADJECTIVE
+FIRST SEVENTEEN CENTIMETER FROMITZ) (ACTION BOARD-F)> 
+<OBJECT FOURTH-BOARD (IN ACCESS-PANEL) (DESC
+"fourth seventeen-centimeter fromitz board") (SYNONYM BOARD BOARDS) (ADJECTIVE
+FOURTH SEVENTEEN CENTIMETER FROMITZ) (ACTION BOARD-F)> 
+<OBJECT THIRD-BOARD (IN ACCESS-PANEL) (DESC
+"third seventeen-centimeter fromitz board") (SYNONYM BOARD BOARDS) (ADJECTIVE
+THIRD SEVENTEEN CENTIMETER FROMITZ) (ACTION BOARD-F)> 
+<OBJECT SECOND-BOARD (IN ACCESS-PANEL) (DESC
+"second seventeen-centimeter fromitz board") (SYNONYM BOARD BOARDS) (ADJECTIVE
+SECOND SEVENTEEN CENTIMETER FROMITZ) (FLAGS TRYTAKEBIT TAKEBIT) (ACTION BOARD-F
+)> 
+<OBJECT FRIED-BOARD (DESC "fried seventeen-centimeter fromitz board") (SYNONYM
+BOARD BOARDS) (ADJECTIVE FRIED SEVENTEEN CENTIMETER FROMITZ) (SIZE 10) (FLAGS
+ACIDBIT TAKEBIT) (ACTION FRIED-BOARD-F)> 
+<DEFINE-ROUTINE FRIED-BOARD-F> 
+<GLOBAL ITS-CRACKED <> %<> WORD> 
+<DEFINE-ROUTINE BOARD-F> 
+<DEFINE-ROUTINE EXAMINE-BOARD> 
+<DEFINE-ROUTINE PUT-BOARD> 
+<DEFINE-ROUTINE BOARD-SHOCK> 
+<ROOM PLANETARY-COURSE-CONTROL (IN ROOMS) (DESC "Course Control") (C-MOVE <
+TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (SOUTH TO SYSTEMS-CORRIDOR-EAST) (OUT TO
+SYSTEMS-CORRIDOR-EAST) (FLAGS FLOYDBIT RLANDBIT ONBIT) (GLOBAL CONTROLS LIGHTS)
+(ACTION PLANETARY-COURSE-CONTROL-F)> 
+<DEFINE-ROUTINE PLANETARY-COURSE-CONTROL-F> 
+<OBJECT CUBE (IN PLANETARY-COURSE-CONTROL) (DESC "large metal cube") (SYNONYM
+CUBE LID SOCKET) (ADJECTIVE LARGE METAL) (FLAGS MUNGBIT NDESCBIT CONTBIT
+SEARCHBIT) (ACTION CUBE-F)> 
+<DEFINE-ROUTINE CUBE-F> 
+<OBJECT BAD-BEDISTOR (IN CUBE) (DESC "fused ninety-ohm bedistor") (SYNONYM
+BEDISTOR) (ADJECTIVE FUSED NINETY OHM) (SIZE 8) (FLAGS ACIDBIT TRYTAKEBIT
+TAKEBIT) (ACTION BAD-BEDISTOR-F)> 
+<DEFINE-ROUTINE BAD-BEDISTOR-F> 
+<ROOM LIBRARY-LOBBY (IN ROOMS) (DESC "Library Lobby") (LDESC
+"This is a carpeted room, thick with dust, with exits to the north and south.
+To the west, up a few steps, is a wide doorway. A small booth lies to the
+east.") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (UP TO LIBRARY) (WEST TO
+LIBRARY) (NORTH TO SYSTEMS-CORRIDOR-EAST) (SOUTH TO PROJECT-CORRIDOR-EAST) (
+EAST TO BOOTH-3) (IN TO BOOTH-3) (FLAGS FLOYDBIT RLANDBIT ONBIT) (GLOBAL TABLES
+STAIRS) (PSEUDO "CARPET" CARPET-PSEUDO "BOOTH" NEAR-BOOTH-PSEUDO)> 
+<OBJECT GREEN-SPOOL (IN LIBRARY-LOBBY) (DESC "green spool") (FDESC
+"You catch a glimpse of a small object nestled among the dust.") (SYNONYM SPOOL
+SPOOLS OBJECT) (ADJECTIVE GREEN SMALL) (SIZE 3) (TEXT
+"The spool is labelled \"Helikoptur Opuraateeng Manyuuwul.\"") (FLAGS ACIDBIT
+TAKEBIT READBIT) (ACTION GREEN-SPOOL-F)> 
+<DEFINE-ROUTINE GREEN-SPOOL-F> 
+<ROOM BOOTH-3 (IN ROOMS) (DESC "Booth 3") (LDESC
+"This is a tiny room with a large \"3\" painted on the wall. A panel contains
+a slot about ten centimeters wide, a brown button labelled \"1\" and a beige
+button labelled \"2.\"") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (WEST TO
+LIBRARY-LOBBY) (OUT TO LIBRARY-LOBBY) (FLAGS RLANDBIT ONBIT) (GLOBAL CONTROLS
+SLOT TELEPORTATION-BUTTON-1 TELEPORTATION-BUTTON-2) (PSEUDO "BOOTH"
+IN-BOOTH-PSEUDO)> 
+<ROOM LIBRARY (IN ROOMS) (DESC "Library") (LDESC
+"This is a large carpeted room with a desk and many small tables. The sole
+exit is down a few steps to the east.") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>
+) (EAST TO LIBRARY-LOBBY) (OUT TO LIBRARY-LOBBY) (FLAGS RLANDBIT ONBIT FLOYDBIT
+) (GLOBAL TABLES STAIRS) (PSEUDO "CARPET" CARPET-PSEUDO "DESK" DESK-PSEUDO)> 
+<OBJECT TERMINAL (IN LIBRARY-LOBBY) (DESC "terminal") (FDESC
+"Sitting on a wide table is a machine of sorts, consisting of a video
+screen and a keyboard. It is currently turned off.") (LDESC
+"On the table is a computer terminal.") (SYNONYM TERMINAL KEYBOARD SCREEN
+MACHIN) (ADJECTIVE COMPUTER VIDEO) (FLAGS LIGHTBIT) (ACTION TERMINAL-F)> 
+<GLOBAL MENU-LEVEL 0 %<> WORD> 
+<DEFINE-ROUTINE TERMINAL-F> 
+<DEFINE-ROUTINE LIBRARY-TYPE> 
+<GLOBAL SCREEN-TEXT <> %<> WORD> 
+<GLOBAL NO-MEANING
+"The terminal feeps, and a message briefly appears on the
+screen explaining that typing that character has no meaning at the moment." %<>
+WORD> 
+<GLOBAL SCREEN-CLEARS "The screen clears and a different menu appears:|" %<>
+WORD> 
+<GLOBAL TEXT-APPEARS "The screen clears and some text appears:|" %<> WORD> 
+<GLOBAL MORE-INFO
+"|
+\"Foor moor deetaald infoormaashun on xis tapik, konsult xe
+liibrereein foor xe aproopreeit spuulz. Tiip zeeroo tuu goo tuu
+aa hiiyur levul.\"" %<> WORD> 
+<GLOBAL LOW-END "\"Yuu hav reect xe loowist levul uv xe liibreree indeks.
+Pleez tiip zeeroo tuu goo tuu aa hiiyur levul. If yuu reekwiir
+asistins, kawl xe liibrereein.\"" %<> WORD> 
+<GLOBAL MAIN-MENU
+"    1. Histooree|
+    2. Kulcur|
+    3. Teknolojee|
+    4. Jeeografee|
+    5. Xe Prajekt|
+    6. Inturlajik Gaamz" %<> WORD> 
+<GLOBAL HISTORY-MENU
+"    0. Maan Menyuu|
+    1. Raashul Orijinz|
+    2. Graat Hiiaatus|
+    3. Riiz uv xe Nuu Teknakrasee" %<> WORD> 
+<GLOBAL CULTURE-MENU
+"    0. Maan Menyuu|
+    1. Lituracur|
+    2. Art|
+    3. Muusik" %<> WORD> 
+<GLOBAL TECHNOLOGY-MENU
+"    0. Maan Menyuu|
+    1. Medisin|
+    2. Agrikultcur|
+    3. Tranzportaashun|
+    4. Roobotiks|
+    5. Planateree Sistumz" %<> WORD> 
+<GLOBAL GEOGRAPHY-MENU
+"    0. Maan Menyuu|
+    1. Planit Landmasiz|
+    2. Undursee Reejunz|
+    3. Spaas Kolooneez" %<> WORD> 
+<GLOBAL PROJECT-MENU
+"    0. Maan Menyuu|
+    1. Orijinz uv xe Dizeez|
+    2. Xe Instalaashunz|
+    3. Prajekt Kuntrool|" %<> WORD> 
+<GLOBAL INTERLOGIC-MENU
+"    0. Maan Menyuu|
+    1. Zoork|
+    2. Dedliin and Witnis|
+    3. Starkros and Suspendid" %<> WORD> 
+<GLOBAL 11-TEXT "\"Xe aancint lejindz saa xat ships frum xe Sekund Yuunyun wuns fild ar skiis
+and wil wun daa kum agen. Madern siientists, huu wuns dismist suc lejindz
+and felt xat liif eevolvd heer on Resida, now feel xat ar planit wuz reelee
+setuld bii men uv xe Sekund Yuunyun.\"" %<> WORD> 
+<GLOBAL 12-TEXT "\"Wexur oor not xe lejindz uv xe Sekund Yuunyun ar truu, arkeeoloojists ar
+surtin xat aa peereeid uv hii teknoolojikul and sooshul deevelupmint egzistid
+xowzindz uv yeerz agoo, but foor sum reezin sivilizaashun slid intuu aa dark
+aaj lasteeng senshureez.\"" %<> WORD> 
+<GLOBAL 13-TEXT "\"Wixin xe last fiiv senshureez, xe riiz uv xe Nuu Teknakrasee haz reeturnd
+sivilizaashun tuu xe levul ataand beefoor xe Hiiaatus. Sooshul histooreeunz
+xink xat wen xe Dizeez struk, ar raas had aceevd aa levul uv sufistikaashun
+eekwal tuu xe pree-Hiiaatus.\"" %<> WORD> 
+<GLOBAL 21-TEXT "\"Menee volyuumz on xe deevelupmint uv Residan lituracur ar on fiil in xe
+liibreree. Alsoo, kopeez uv awl graat wurks uv riiteeng, sum daateeng bak tuu
+xe mixikul daaz uv xe Sekund Yuunyun, ar lookaatid heer.\"" %<> WORD> 
+<GLOBAL 22-TEXT "\"Histoorikul studeez and reeproodukshunz uv Residan art ar avaalibul heer
+foor awl xree maajur peereeids uv art deevelupmint: xe Primitiv peereeid, xe
+Renasans peereeid uv xe urlee poost-Hiiaatus, and xe moost reesint peereeid
+uv videeoo and laazur art.\"" %<> WORD> 
+<GLOBAL 23-TEXT "\"Reekoordeengz uv awl impoortint kompoozishunz uv xe last fiiv hundrid yeerz
+ar lookaatid in xe liibrereez data banks.\"" %<> WORD> 
+<GLOBAL 31-TEXT "\"Awl maajur dizeezuz hav bin kyuuribul foor oovur aa senshuree. Xe
+deevelupmint uv kriioojeniks now alowz dokturz tuu put paashints in staasis
+until aa kyuur iz fownd. Avurij Residan liif ekspektinsee iz now 147
+revooluushunz.\"" %<> WORD> 
+<GLOBAL 32-TEXT "\"Durt farmeeng iz awl but obsooleet, wix moost fuud kumeeng frum xe
+hiidrooponiks kompleksiz oor xe undurwatur aljee farmz.\"" %<> WORD> 
+<GLOBAL 33-TEXT "\"Planateree travul iz noormulee priivit skuutur foor shoort hops, and aarbus
+foor longur trips.  Spaas travul haz reesintlee bin revooluushuniizd bii xe
+invenshun uv nuukleeur-fyuuld enjinz.\"" %<> WORD> 
+<GLOBAL 34-TEXT "\"Untoold senshureez agoo, entiir teemz uv roobots wur reekwiird tuu purfoorm
+eevin xe simplist tasks...wun roobot wud handul viszuuwul funkshunz, wun roobot
+wud handul awditooree funkshunz, and soo foorx. Now, xanks tuu advansis in
+mineeatshurizaashun, xeez tasks kan bee purfoormd bii singul roobots, suc az
+xe multiipurpis B-19 seereez.\"" %<> WORD> 
+<GLOBAL 35-TEXT "\"Xe priimeree Planateree Sistumz ar Kors Kuntrool (foor maantaaneeng an
+iideel kliimit), Deefens (foor destroieeng pootenshulee daanjuris meeteeoorz),
+and xe reesintlee adid Prajekt Kuntrool (foor monitureeng proogres uv
+Xe Prajekt).\"" %<> WORD> 
+<GLOBAL 41-TEXT "\"Sins xe staabulizaashun uv xe oorbit uv Resida, preesiislee 47.79 pursent
+uv xe planits surfis iz land. Xe land iz diviidid intuu tuu priimeree
+landmasiz, Andoor and Fruulik, plus siks lesur landmasiz. Xe gloobul kapitul,
+Pilandoor, iz on xe eesturn koost uv Andoor.\"" %<> WORD> 
+<GLOBAL 42-TEXT "\"Xe furst undursee habutats wur oopind in 2992, and tuudaa, neerlee tuu
+senshureez laatur, abowt 9 pursent uv Residaz popyuulaashun livz in wun
+uv xe twentee sprawleeng undursee siteez.\"" %<> WORD> 
+<GLOBAL 43-TEXT "\"Alxoo setulmints hav bin establisht on Fristin, and on sevrul uv xe muunz
+uv xe gas jiiunt Blustin, xe vast majooritee uv of-woorldurz liv in xe
+spaas kolooneez establisht at Residaz troojin points.\"" %<> WORD> 
+<GLOBAL 51-TEXT "\"Xe oorijin uv Xe Dizeez haz bin linkt tuu xe Sentur foor Advanst Kriioojenik
+Reesurc, wic wuz kondukteeng reesurc intuu waaz uv ekstendeeng xe Kriioojenik
+peereeid indefinitlee. Alxoo xis reesurc wuz aa sukses, sumhow Xe Dizeez
+wuz reeleest and beegan spredeeng.\"" %<> WORD> 
+<GLOBAL 52-TEXT "\"Xe tuu kompleksiz wur establisht on xe twin peek platooz uv Kalamontee and
+Lawanda. Xeez lookaashunz wur coozin beekawz xaar hiit wud maak
+transpoortaashun and komyuunikaashunz eezeeur, and soo xat xe vast reeakturz
+and kriioojeniks caamburz kud bee kunstruktid in xe mowntinz beeloo.\"" %<>
+WORD> 
+<GLOBAL 53-TEXT "\"Faaz Wun: xe kunstrukshun uv xe Kalamontee and Lawanda Kompleksiz. Faaz
+Tuu: mass kriioojenik freezeeng uv Residan popyuulaashun. Faaz Xree:
+siimultaaneeus monitureeng uv kriioojeniks wiil awtoomaatid reesurc iz
+konduktid bii inkrediblee soofistikaatid kumpyuuturiizd fasiliteez. Faaz
+Foor: reeviivul and inokyuulaashun uv xe popyuulaashun.\"" %<> WORD> 
+<GLOBAL 61-TEXT "\"Xe Zoork triloojee, an adventshur klasik, taaks plaas in aa deeliitful
+but daanjuris undurgrownd seteeng.\"" %<> WORD> 
+<GLOBAL 62-TEXT "\"Dedliin iz xe furst graat misturee uv xe kumpyuutur aaj, and Witnis iz
+its wurxee suksesur.\"" %<> WORD> 
+<GLOBAL 63-TEXT "\"Starkros iz Infookamz miind-bendeeng siiens-fikshun adventshur. Suspendid
+iz aa kriioojenik siiens-fikshun niitmaar.\"" %<> WORD> 
+<OBJECT SPOOL-READER (IN LIBRARY) (DESC "microfilm reader") (FDESC
+"On the desk is a machine with a screen and a small circular opening. It
+seems to be turned off.") (LDESC
+"There is a microfilm reader on one of the tables.") (SYNONYM READER SCREEN
+OPENIN MACHIN) (ADJECTIVE MICROF SMALL CIRCUL) (CAPACITY 3) (FLAGS LIGHTBIT
+CONTBIT SEARCHBIT OPENBIT) (ACTION SPOOL-READER-F)> 
+<GLOBAL SPOOL-TEXT <> %<> WORD> 
+<DEFINE-ROUTINE SPOOL-READER-F> 
+<GLOBAL SPOOL-FITS "The spool fits neatly into the opening." %<> WORD> 
+<GLOBAL SOME-INFO " Some information appears on the screen." %<> WORD> 
+<GLOBAL GREEN-TEXT
+"\"Oonlee peepul wix propur traaneeng shud piilot xe helikopturz. Reekwiird
+ekwipmint inkluudz aa Helikoptur Akses Kard and aa Kuntrool Panul Kee. Xeez
+kan bee obtaand frum Tranzportaashun Stoorij.\"|
+The rest is all very technical." %<> WORD> 
+<GLOBAL RED-TEXT
+"\"Xe jestaashun peereeid uv Xe Dizeez, folooweeng ekspoozur, vaareez
+treemenduslee frum pursin tuu pursin, raanjeeng frum wun daa tuu sevrul
+rootaashunz. Wuns xe furst simptumz ar shoon, dex alwaaz okurz in aat tuu
+ten daaz.|
+Xe priimeree simptum iz aa hii feevur. Xe sekunderee simptum iz aa sharp
+inkrees in xe amownt uv sleep needid eec niit.\"|
+The rest of the information is about symptoms which can be detected only by
+using complicated medical procedures." %<> WORD> 
+<ROOM PROJECT-CORRIDOR-WEST (IN ROOMS) (DESC "Project Corridor West") (LDESC
+"This is a curving hallway leading east and northwest. There is an opening
+to the west.") (C-MOVE <TABLE 0 0 0 0 25 0 0 0 0 0 0 0>) (WEST TO SANFAC-F) (
+EAST TO PROJECT-CORRIDOR) (NW TO FORK) (FLAGS RLANDBIT ONBIT)> 
+<ROOM SANFAC-F (IN ROOMS) (DESC "SanFac F") (LDESC
+"This is another dusty sanitary facility. Unlike the ones near the dorms,
+this one is smaller and has no bathing fixtures.") (C-MOVE <TABLE 0 0 0 0 0 0 0
+0 0 0 0 0>) (EAST TO PROJECT-CORRIDOR-WEST) (OUT TO PROJECT-CORRIDOR-WEST) (
+FLAGS FLOYDBIT RLANDBIT ONBIT) (PSEUDO "FIXTURES" TOILET-PSEUDO "TOILET"
+TOILET-PSEUDO)> 
+<ROOM PROJECT-CORRIDOR (IN ROOMS) (DESC "Project Corridor") (LDESC
+"You are at the center of a long east-west hallway. A doorway, labelled
+\"PrajKon Awfis\", opens to the south.") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0
+>) (EAST TO PROJECT-CORRIDOR-EAST) (WEST TO PROJECT-CORRIDOR-WEST) (SOUTH TO
+PROJCON-OFFICE) (FLAGS RLANDBIT ONBIT)> 
+<ROOM PROJCON-OFFICE (IN ROOMS) (DESC "ProjCon Office") (C-MOVE <TABLE 0 0 0 0
+0 0 0 0 0 0 0 0>) (NORTH TO PROJECT-CORRIDOR) (SOUTH TO CRYO-ELEVATOR IF
+CRYO-ELEVATOR-DOOR IS OPEN ELSE "You can't go that way.") (EAST TO
+COMPUTER-ROOM) (FLAGS RLANDBIT FLOYDBIT ONBIT) (GLOBAL CRYO-ELEVATOR-DOOR) (
+PSEUDO "MURAL" MURAL-PSEUDO "LOGO" LOGO-PSEUDO) (ACTION PROJCON-OFFICE-F)> 
+<DEFINE-ROUTINE PROJCON-OFFICE-F> 
+<GLOBAL MURAL-FLAG <> %<> WORD> 
+<OBJECT CRYO-ELEVATOR-DOOR (IN LOCAL-GLOBALS) (DESC "cryo-elevator door") (
+SYNONYM DOOR) (ADJECTIVE CRYO-ELEVATOR ELEVATOR) (FLAGS NDESCBIT INVISIBLE)> 
+<ROOM CRYO-ELEVATOR (IN ROOMS) (DESC "Cryo-Elevator") (C-MOVE <TABLE 0 0 0 0 0
+0 0 0 0 0 0 0>) (NORTH PER CRYO-EXIT-F) (GLOBAL CRYO-ELEVATOR-DOOR) (FLAGS
+RLANDBIT ONBIT) (PSEUDO "BUTTON" CRYO-BUTTON-PSEUDO) (ACTION CRYO-ELEVATOR-F)> 
+<DEFINE-ROUTINE CRYO-ELEVATOR-F> 
+<DEFINE-ROUTINE CRYO-EXIT-F> 
+<GLOBAL CRYO-SCORE-FLAG <> %<> WORD> 
+<DEFINE-ROUTINE I-CRYO-ELEVATOR-ARRIVE> 
+<ROOM CRYO-ANTEROOM (IN ROOMS) (DESC "Cryo-Anteroom") (C-MOVE <TABLE 0 0 0 0 0
+0 0 0 0 0 0 0>) (FLAGS RLANDBIT ONBIT) (ACTION CRYO-ANTEROOM-F)> 
+<DEFINE-ROUTINE CRYO-ANTEROOM-F> 
+<ROOM PROJECT-CORRIDOR-EAST (IN ROOMS) (DESC "Project Corridor East") (LDESC
+"The hallway ends here but continues back toward the west. Doorways lead
+north, south and east.") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (NORTH TO
+LIBRARY-LOBBY) (SOUTH TO COMPUTER-ROOM) (WEST TO PROJECT-CORRIDOR) (EAST TO
+MAIN-LAB) (FLAGS RLANDBIT ONBIT)> 
+<ROOM COMPUTER-ROOM (IN ROOMS) (DESC "Computer Room") (LDESC
+"This is the main computer room for the Project. The only sign of activity is
+a glowing red light. The exits are north, west, and northeast. To the south
+is a small booth.") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 25 0>) (NORTH TO
+PROJECT-CORRIDOR-EAST) (WEST TO PROJCON-OFFICE) (SOUTH TO MINI-BOOTH) (IN TO
+MINI-BOOTH) (NE TO MAIN-LAB) (FLAGS RLANDBIT FLOYDBIT ONBIT) (GLOBAL LIGHTS) (
+PSEUDO "BOOTH" NEAR-BOOTH-PSEUDO)> 
+<GLOBAL COMPUTER-FLAG <> %<> WORD> 
+<DEFINE-ROUTINE COMPUTER-ACTION> 
+<OBJECT PRINT-OUT (IN COMPUTER-ROOM) (DESC "pile of computer output") (SYNONYM
+PILE PAPER OUTPUT PRINTOUT) (ADJECTIVE COMPUTER) (SIZE 20) (FLAGS ACIDBIT
+TAKEBIT READBIT) (ACTION PRINT-OUT-F)> 
+<DEFINE-ROUTINE PRINT-OUT-F> 
+<ROOM MINI-BOOTH (IN ROOMS) (DESC "Miniaturization Booth") (LDESC
+"This is a small room barely large enough for one person. Mounted on the wall
+is a small slot, and next to it a keyboard with numeric keys. The exit is to
+the north.") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (NORTH TO COMPUTER-ROOM)
+(OUT TO COMPUTER-ROOM) (FLAGS RLANDBIT ONBIT) (GLOBAL SLOT) (PSEUDO "KEYBOARD"
+KEYBOARD-PSEUDO "BOOTH" IN-BOOTH-PSEUDO)> 
+<OBJECT MINI-CARD (IN BIO-LOCK-EAST) (DESC "miniaturization access card") (
+SYNONYM CARD CARDS) (ADJECTIVE MINIAT MINI ACCESS) (SIZE 3) (FLAGS TAKEBIT
+NDESCBIT INVISIBLE READBIT) (VALUE 1) (TEXT
+"The card is embossed \"minitcurizaashun akses kard.\"") (ACTION MINI-CARD-F)> 
+<DEFINE-ROUTINE MINI-CARD-F> 
+<ROOM MAIN-LAB (IN ROOMS) (DESC "Main Lab") (LDESC
+"This is the heart of the Project's vast laboratory complex. There are exits
+to the west and southwest, and heavy metal doors to the northeast and
+southeast. A small doorway leads south.") (C-MOVE <TABLE 0 0 0 0 0 0 25 0 0 0 0
+0>) (WEST TO PROJECT-CORRIDOR-EAST) (SOUTH TO LAB-STORAGE) (SW TO COMPUTER-ROOM
+) (SE TO BIO-LOCK-WEST IF BIO-DOOR-WEST IS OPEN) (NE TO RADIATION-LOCK-WEST IF
+RAD-DOOR-WEST IS OPEN) (FLAGS RLANDBIT FLOYDBIT ONBIT) (GLOBAL BIO-DOOR-WEST
+RAD-DOOR-WEST)> 
+<ROOM LAB-STORAGE (IN ROOMS) (DESC "Lab Storage") (LDESC
+"This is a tiny room for the storage of laboratory supplies. The sole exit is
+to the north.") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (NORTH TO MAIN-LAB) (
+OUT TO MAIN-LAB) (FLAGS RLANDBIT FLOYDBIT ONBIT) (GLOBAL SHELVES) (PSEUDO
+"RACK" CARPET-PSEUDO "SUPPLIES" SUPPLIES-PSEUDO)> 
+<OBJECT LAB-UNIFORM (IN LAB-STORAGE) (DESC "lab uniform") (FDESC
+"Hanging on a rack is a pale blue lab uniform. Sewn onto its pocket is a
+non-descript logo.") (SYNONYM UNIFORM SUIT POCKET LOGO) (ADJECTIVE PALE BLUE
+LAB) (SIZE 10) (CAPACITY 5) (FLAGS TAKEBIT CONTBIT SEARCHBIT WEARBIT) (ACTION
+LAB-UNIFORM-F)> 
+<GLOBAL UNIFORM-OPENED <> %<> WORD> 
+<DEFINE-ROUTINE LAB-UNIFORM-F> 
+<OBJECT TELEPORTATION-CARD (IN LAB-UNIFORM) (DESC "teleportation access card")
+(SYNONYM CARD CARDS) (ADJECTIVE TELEPO ACCESS) (SIZE 3) (FLAGS TAKEBIT READBIT)
+(TEXT "The card is embossed \"teliportaashun akses kard.\"")> 
+<OBJECT COMBINATION-PAPER (IN LAB-UNIFORM) (DESC "piece of paper") (SYNONYM
+PIECE PAPER) (FLAGS ACIDBIT TAKEBIT READBIT) (SIZE 2) (ACTION
+COMBINATION-PAPER-F)> 
+<DEFINE-ROUTINE COMBINATION-PAPER-F> 
+<ROOM BIO-LOCK-WEST (IN ROOMS) (DESC "Bio Lock West") (LDESC
+"This is the first half of a sterilization chamber to prevent contamination
+of the delicate biological experiments in the Bio Lab which lies beyond. The
+door to the west leads to the main lab, and the bio lock continues eastward.")
+(C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 10 0 0>) (EAST TO BIO-LOCK-EAST) (WEST TO
+MAIN-LAB IF BIO-DOOR-WEST IS OPEN) (FLAGS RLANDBIT ONBIT) (GLOBAL BIO-DOOR-WEST
+)> 
+<ROOM BIO-LOCK-EAST (IN ROOMS) (DESC "Bio Lock East") (LDESC
+"The is the second half of the sterilization chamber leading from the main
+lab to the Bio Lab. The door to the east, leading to the Bio Lab, has a
+window. The bio lock continues to the west.") (C-MOVE <TABLE 0 0 0 0 0 10 0 0 0
+0 0 0>) (EAST TO BIO-LAB IF BIO-DOOR-EAST IS OPEN) (WEST TO BIO-LOCK-WEST) (
+FLAGS RLANDBIT ONBIT) (GLOBAL BIO-DOOR-EAST WINDOW) (ACTION BIO-LOCK-EAST-F)> 
+<DEFINE-ROUTINE BIO-LOCK-EAST-F> 
+<GLOBAL FLOYD-PEERED <> %<> WORD> 
+<DEFINE-ROUTINE I-CLEAR-FLOYD-PEER> 
+<ROOM RADIATION-LOCK-WEST (IN ROOMS) (DESC "Radiation Lock West") (LDESC
+"This is the western half of a decontamination chamber to prevent dangerous
+radioactive materials from leaving the Radiation Lab which lies to the east.
+The door leads west to the main lab.") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>)
+(EAST TO RADIATION-LOCK-EAST) (WEST TO MAIN-LAB IF RAD-DOOR-WEST IS OPEN) (
+FLAGS RLANDBIT ONBIT) (GLOBAL RAD-DOOR-WEST)> 
+<ROOM RADIATION-LOCK-EAST (IN ROOMS) (DESC "Radiation Lock East") (LDESC
+"This is the eastern half of the decontamination chamber. The door to the
+east leads to the Radiation Lab, and the chamber continues westward. A sign
+on the wall reads \"WORNEENG! Raadeeaashun suuts must bee worn beeyond xis
+point.\"") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (EAST TO RADIATION-LAB IF
+RAD-DOOR-EAST IS OPEN) (WEST TO RADIATION-LOCK-WEST) (FLAGS RLANDBIT ONBIT) (
+GLOBAL RAD-DOOR-EAST)> 
+<OBJECT BIO-DOOR-EAST (IN LOCAL-GLOBALS) (DESC "lab door") (SYNONYM DOOR) (
+ADJECTIVE LAB) (FLAGS DOORBIT NDESCBIT) (ACTION BIO-DOOR-EAST-F)> 
+<OBJECT BIO-DOOR-WEST (IN LOCAL-GLOBALS) (DESC "bio-lock door") (SYNONYM DOOR)
+(ADJECTIVE BIO-LOCK) (FLAGS DOORBIT NDESCBIT) (ACTION BIO-DOOR-WEST-F)> 
+<OBJECT RAD-DOOR-EAST (IN LOCAL-GLOBALS) (DESC "lab door") (SYNONYM DOOR) (
+ADJECTIVE LAB) (FLAGS DOORBIT NDESCBIT) (ACTION RAD-DOOR-EAST-F)> 
+<OBJECT RAD-DOOR-WEST (IN LOCAL-GLOBALS) (DESC "radiation-lock door") (SYNONYM
+DOOR) (ADJECTIVE RADIATION) (FLAGS DOORBIT NDESCBIT) (ACTION RAD-DOOR-WEST-F)> 
+<DEFINE-ROUTINE BIO-DOOR-EAST-F> 
+<DEFINE-ROUTINE I-BIO-EAST-CLOSES> 
+<DEFINE-ROUTINE BIO-DOOR-WEST-F> 
+<DEFINE-ROUTINE I-BIO-WEST-CLOSES> 
+<DEFINE-ROUTINE RAD-DOOR-EAST-F> 
+<DEFINE-ROUTINE RAD-DOOR-WEST-F> 
+<GLOBAL BOTH-DOORS
+"A very bored-sounding recorded voice explains that, in order to prevent
+contamination, both lock doors cannot be open simultaneously." %<> WORD> 
+<GLOBAL DOOR-OPENS "The door opens." %<> WORD> 
+<GLOBAL DOOR-CLOSES "The door closes." %<> WORD> 
+<GLOBAL FLOYD-WAITING <> %<> WORD> 
+<GLOBAL WAITING-COUNTER 0 %<> WORD> 
+<GLOBAL FLOYD-GAVE-UP <> %<> WORD> 
+<GLOBAL FLOYD-FORAYED <> %<> WORD> 
+<GLOBAL FORAY-COUNTER 0 %<> WORD> 
+<DEFINE-ROUTINE I-FLOYD-FORAY> 
+<DEFINE-ROUTINE MONSTER-DEATH> 
+<ROOM BIO-LAB (IN ROOMS) (DESC "Bio Lab") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0
+0>) (EAST TO LAB-OFFICE IF OFFICE-DOOR IS OPEN) (WEST TO BIO-LOCK-EAST IF
+BIO-DOOR-EAST IS OPEN) (FLAGS RLANDBIT ONBIT) (GLOBAL BIO-DOOR-EAST WINDOW
+OFFICE-DOOR) (PSEUDO "CRACK" CRACK-PSEUDO) (ACTION BIO-LAB-F)> 
+<DEFINE-ROUTINE BIO-LAB-F> 
+<GLOBAL EXTRA-MOVE-FLAG <> %<> WORD> 
+<GLOBAL CRYO-MOVE-FLAG <> %<> WORD> 
+<GLOBAL LAST-CHASE-ROOM <> %<> WORD> 
+<GLOBAL SECOND-TO-LAST-ROOM <> %<> WORD> 
+<DEFINE-ROUTINE I-CHASE-SCENE> 
+<GLOBAL MONSTER-ENTRANCES <PLTABLE
+"The growling humanoid is charging straight at you, waving his
+axe-like implement!" "A pair of slavering fangs removes part of your clothing!"
+"Needle-sharp mandibles nip at your arms!"
+"The mobile plant whips its poisonous tentacles against
+your ankles!"> %<> WORD> 
+<ROOM RADIATION-LAB (IN ROOMS) (DESC "Radiation Lab") (LDESC
+"This room is filled with unfathomable equipment and large canisters bearing
+radioactive warnings. Many of the canisters are split open. You can see the
+Bio Lab through a large crack in the south wall. Sinister-looking forms move
+about within the Bio Lab. Although the lights here are off, the room is
+suffused with a pale blue glow.") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (
+WEST TO RADIATION-LOCK-EAST IF RAD-DOOR-EAST IS OPEN) (FLAGS RLANDBIT ONBIT) (
+GLOBAL TABLES RAD-DOOR-EAST) (PSEUDO "CRACK" CRACK-PSEUDO "EQUIPM"
+EQUIPMENT-PSEUDO) (ACTION RADIATION-LAB-F)> 
+<DEFINE-ROUTINE RADIATION-LAB-F> 
+<GLOBAL NUKED-COUNTER 0 %<> WORD> 
+<DEFINE-ROUTINE I-NUKED-BLUE> 
+<OBJECT BROWN-SPOOL (IN RADIATION-LAB) (DESC "brown spool") (FDESC
+"Sitting on a long table is a small brown spool.") (SYNONYM SPOOL SPOOLS OBJECT
+) (ADJECTIVE BROWN SMALL) (SIZE 3) (TEXT
+"The spool is labelled \"Instrukshunz foor Reepaareeng Reepaar Roobots.\"") (
+FLAGS ACIDBIT TAKEBIT READBIT)> 
+<OBJECT LAMP (IN RADIATION-LAB) (DESC "portable lamp") (FDESC
+"There is a powerful portable lamp here, currently off.") (SYNONYM LAMP LANTERN
+LIGHT) (ADJECTIVE POWERFUL PORTABLE) (SIZE 20) (FLAGS TAKEBIT) (ACTION LAMP-F)>
+
+<DEFINE-ROUTINE LAMP-F> 
+<ROOM LAB-OFFICE (IN ROOMS) (DESC "Lab Office") (C-MOVE <TABLE 0 0 0 0 0 0 0 0
+0 0 0 0>) (WEST TO BIO-LAB IF OFFICE-DOOR IS OPEN) (SOUTH TO AUXILIARY-BOOTH) (
+IN TO AUXILIARY-BOOTH) (GLOBAL OFFICE-DOOR) (FLAGS RLANDBIT ONBIT) (PSEUDO
+"FILES" CABINETS-PSEUDO "BOOTH" NEAR-BOOTH-PSEUDO) (ACTION LAB-OFFICE-F)> 
+<DEFINE-ROUTINE LAB-OFFICE-F> 
+<OBJECT OFFICE-DOOR (IN LOCAL-GLOBALS) (DESC "office door") (SYNONYM DOOR) (
+ADJECTIVE OFFICE) (FLAGS VOWELBIT DOORBIT NDESCBIT)> 
+<OBJECT LAB-DESK (IN LAB-OFFICE) (DESC "desk") (SYNONYM DESK) (ADJECTIVE LARGE
+MESSY) (FLAGS CONTBIT SEARCHBIT NDESCBIT) (CAPACITY 10) (ACTION LAB-DESK-F)> 
+<DEFINE-ROUTINE LAB-DESK-F> 
+<OBJECT GAS-MASK (IN LAB-DESK) (DESC "gas mask") (SYNONYM MASK) (ADJECTIVE GAS)
+(FLAGS ACIDBIT TAKEBIT WEARBIT) (SIZE 10)> 
+<OBJECT MEMO (DESC "memo") (SYNONYM MEMO) (FLAGS READBIT ACIDBIT TAKEBIT) (TEXT
+"\"Memoo tuu awl lab pursunel: Duu tuu xe daanjuris naatshur uv xe biioo
+eksperiments, an eemurjensee sistum haz bin instawld. Xis sistum wud flud
+xe entiir Biioo Lab wic aa dedlee fungasiid. Propur preecawshunz shud bee
+taakin if xis sistum iz evur yuuzd.\"")> 
+<OBJECT LIGHT-BUTTON (IN LAB-OFFICE) (DESC "white button") (SYNONYM BUTTON) (
+ADJECTIVE WHITE LIGHT) (FLAGS NDESCBIT) (ACTION LIGHT-BUTTON-F)> 
+<OBJECT DARK-BUTTON (IN LAB-OFFICE) (DESC "black button") (SYNONYM BUTTON) (
+ADJECTIVE BLACK DARK DARKNESS) (FLAGS NDESCBIT) (ACTION DARK-BUTTON-F)> 
+<OBJECT FUNGICIDE-BUTTON (IN LAB-OFFICE) (DESC "red button") (SYNONYM BUTTON) (
+ADJECTIVE RED FUNGICIDE EMERGENCY) (FLAGS NDESCBIT) (ACTION FUNGICIDE-BUTTON-F)
+> 
+<GLOBAL LAB-LIGHTS-ON <> %<> WORD> 
+<GLOBAL LAB-FLOODED <> %<> WORD> 
+<DEFINE-ROUTINE LIGHT-BUTTON-F> 
+<DEFINE-ROUTINE DARK-BUTTON-F> 
+<GLOBAL FAINT-SOUND "You hear the faint sound of a relay clicking." %<> WORD> 
+<DEFINE-ROUTINE FUNGICIDE-BUTTON-F> 
+<DEFINE-ROUTINE I-UNFLOOD> 
+<ROOM AUXILIARY-BOOTH (IN ROOMS) (DESC "Auxiliary Booth") (LDESC
+"This is another small booth. Unlike the Miniaturization Booth, this room
+has no slot or keyboard, so presumably it is intended only as a receiving
+station. The exit is on the northern side.") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0
+0 0>) (NORTH TO LAB-OFFICE) (OUT TO LAB-OFFICE) (FLAGS RLANDBIT ONBIT) (VALUE 4
+) (PSEUDO "BOOTH" IN-BOOTH-PSEUDO)> 
+<GLOBAL MINI-ACTIVATED <> %<> WORD> 
+<DEFINE-ROUTINE I-TURNOFF-MINI> 
+<ROOM STATION-384 (IN ROOMS) (DESC "Station 384") (LDESC
+"You are standing on a square plate of heavy metal. Above your head, parallel
+to the plate beneath you, is an identical metal plate. To the east is a wide,
+metallic strip.") (C-MOVE <TABLE 0 0 0 0 0 0 0 0 0 0 0 0>) (EAST TO
+STRIP-NEAR-STATION) (FLAGS RLANDBIT ONBIT) (GLOBAL STRIP) (PSEUDO "PLATE"
+PLATE-PSEUDO "PLATES" PLATE-PSEUDO) (ACTION STATION-384-F)> 
+<DEFINE-ROUTINE STATION-384-F> 
+<DEFINE-ROUTINE I-ANNOUNCEMENT> 
+<GLOBAL BEEN-HERE <> %<> WORD> 
+<GLOBAL COMPUTER-FIXED <> %<> WORD> 
+<GLOBAL FAMILIAR-WRENCHING
+"You feel the familiar wrenching of your innards, and find yourself in a vast
+room whose distant walls are rushing straight toward you...|" %<> WORD> 
+<ROOM STRIP-NEAR-STATION (IN ROOMS) (DESC "Strip Near Station") (LDESC
+"You are standing on a silicon filament, which looks to you like a wide
+metal highway. South of here, the filament makes a right angle and heads
+straight down, like a cliff overlooking a black void. The filament can be
+followed north, however. Station 384 lies westward.") (C-MOVE <TABLE 0 0 0 0 0
+0 0 0 0 0 0 0>) (SOUTH "The plunge would probably be fatal.") (EAST
+"The plunge would probably be fatal.") (NORTH TO MIDDLE-OF-STRIP) (WEST TO
+STATION-384) (FLAGS RLANDBIT ONBIT) (VALUE 4) (PSEUDO "VOID" VOID-PSEUDO) (
+GLOBAL STRIP)> 
+<ROOM MIDDLE-OF-STRIP (IN ROOMS) (DESC "Middle of Strip") (LDESC
+"You are standing on a section of the strip with a bottomless void stretching
+out on both sides. The strip continues to the north and south.") (C-MOVE <TABLE
+0 0 0 0 0 0 0 0 0 0 0 0>) (NORTH TO STRIP-NEAR-RELAY) (SOUTH TO
+STRIP-NEAR-STATION IF NO-MICROBE ELSE
+"Not a chance -- unless,
+of course, you don't mind walking into the gullet of a hungry microbe.") (EAST
+"Do you have a penchant for bottomless voids?") (WEST
+"Do you have a penchant for bottomless voids?") (FLAGS RLANDBIT ONBIT) (ACTION
+MIDDLE-OF-STRIP-F) (PSEUDO "VOID" VOID-PSEUDO) (GLOBAL STRIP)> 
+<GLOBAL NO-MICROBE T %<> WORD> 
+<GLOBAL MICROBE-DISPATCHED <> %<> WORD> 
+<DEFINE-ROUTINE MIDDLE-OF-STRIP-F> 
+<ROOM STRIP-NEAR-RELAY (IN ROOMS) (DESC "Strip Near Relay") (C-MOVE <TABLE 0 0
+0 0 0 0 0 0 0 0 0 0>) (NORTH
+"There is a huge featureless wall there, remember?") (SOUTH TO MIDDLE-OF-STRIP
+IF NO-MICROBE ELSE
+"Not a chance -- unless,
+of course, you don't mind walking into the gullet of a hungry microbe.") (EAST
+PER RELAY-EXIT-F) (WEST "Do you have a penchant for bottomless voids?") (FLAGS
+RLANDBIT ONBIT) (GLOBAL STRIP) (PSEUDO "VOID" VOID-PSEUDO) (ACTION
+STRIP-NEAR-RELAY-F)> 
+<DEFINE-ROUTINE STRIP-NEAR-RELAY-F> 
+<DEFINE-ROUTINE RELAY-EXIT-F> 
+<OBJECT RELAY (IN STRIP-NEAR-RELAY) (DESC "micro-relay") (SYNONYM MICRO RELAY)
+(ADJECTIVE MICRO) (FLAGS NDESCBIT TRANSBIT) (ACTION RELAY-F)> 
+<DEFINE-ROUTINE RELAY-F> 
+<OBJECT SPECK (IN RELAY) (DESC "speck") (SYNONYM SPECK BOULDER IMPURITY) (
+ADJECTIVE BLUE) (FLAGS NDESCBIT)> 
+<OBJECT LASER (IN TOOL-ROOM) (DESC "laser") (FDESC
+"A small device, labelled \"Akmee Portabul Laazur\", is resting on one of
+the lower shelves.") (SYNONYM DEVICE LASER UNIT DEPRES) (ADJECTIVE PORTABLE
+ACME) (SIZE 25) (CAPACITY 5) (FLAGS MUNGBIT TAKEBIT OPENBIT TRANSBIT CONTBIT) (
+ACTION LASER-F)> 
+<OBJECT LASER-DIAL (IN LASER) (DESC "laser setting dial") (SYNONYM DIAL) (
+ADJECTIVE LASER SETTING) (FLAGS MUNGBIT NDESCBIT) (ACTION LASER-DIAL-F)> 
+<DEFINE-ROUTINE LASER-DIAL-F> 
+<OBJECT OLD-BATTERY (IN LASER) (DESC "old battery") (LDESC
+"There is a worn-out laser battery here.") (SYNONYM BATTERY) (ADJECTIVE LASER
+WORN-OUT OLD) (SIZE 5) (FLAGS VOWELBIT ACIDBIT TAKEBIT)> 
+<OBJECT NEW-BATTERY (IN LAB-STORAGE) (DESC "new battery") (FDESC
+"The odds and ends on the shelves include a small round object, which closer
+inspection reveals to be a fresh laser battery.") (SYNONYM OBJECT BATTERY) (
+ADJECTIVE LASER SMALL ROUND FRESH NEW) (SIZE 5) (FLAGS ACIDBIT TAKEBIT)> 
+<GLOBAL LASER-SETTING 5 %<> WORD> 
+<GLOBAL SPECK-HIT <> %<> WORD> 
+<GLOBAL OLD-SHOTS 0 %<> WORD> 
+<GLOBAL NEW-SHOTS 0 %<> WORD> 
+<DEFINE-ROUTINE ZAP-COUNT> 
+<DEFINE-ROUTINE LASER-F> 
+<DEFINE-ROUTINE ALREADY-BATTERY> 
+<DEFINE-ROUTINE BATTERY-NOW> 
+<GLOBAL WARMTH-FLAG 0 %<> WORD> 
+<GLOBAL LASER-JUST-SHOT <> %<> WORD> 
+<DEFINE-ROUTINE I-WARMTH> 
+<DEFINE-ROUTINE LASER-FEELS> 
+<DEFINE-ROUTINE LASER-COOLS> 
+<GLOBAL LASER-SCORE-FLAG <> %<> WORD> 
+<GLOBAL MARKSMANSHIP-COUNTER 0 %<> WORD> 
+<DEFINE-ROUTINE BEAM-COLOR> 
+<DEFINE-ROUTINE SHOOT-SPECK> 
+<GLOBAL BEAM-MISSES <PLTABLE "The beam just misses the speck!" "A near miss!"
+"A good shot, but just a little wide of the target."> %<> WORD> 
+<DEFINE-ROUTINE I-FRY> 
+<OBJECT MICROBE (DESC "microbe") (LDESC
+"A hungry microbe blocks your way, its cilia waving and its pseudopods
+towering over you.") (SYNONYM MICROBE BUG MONSTER) (ADJECTIVE HUNGRY) (FLAGS
+ACTORBIT) (ACTION MICROBE-F)> 
+<DEFINE-ROUTINE MICROBE-F> 
+<DEFINE-ROUTINE I-MICROBE> 
+<GLOBAL WINNER-ATTACKED <PLTABLE
+"A pseudopod extends toward you. You jump back just in time
+to avoid being engulfed."
+"A slimy pseudopod brushes against your shoulder. You twist
+away in the nick of time."
+"A pseudopod shoots out toward your head! Ducking quickly,
+you save your life."
+"Two protoplasm-filled blobs sneak toward you from the left.
+You jump to the side and almost fall off the strip into the void below!"> %<>
+WORD> 
+<GLOBAL MONSTER-CLOSES <PLTABLE
+"The microbe slithers closer. The cilia around its gullet glisten
+with mucus, giving the impression that the microbe is salivating."
+"The microbe flows toward you. It towers above you, its cilia
+waving madly in your face."
+"The monster wriggles nearer. It is now so close that you can make
+out details in the protoplasm beneath its translucent skin."> %<> WORD> 
+<GLOBAL MICROBE-HIT <> %<> WORD> 
+<GLOBAL MICROBE-COUNTER 0 %<> WORD> 
+<DEFINE-ROUTINE SHOOT-MICROBE> 
+<GLOBAL MICROBE-STRIKES <PLTABLE
+"The microbe's outer membrane sizzles a bit, and some protoplasm
+oozes out. The microbe recoils momentarily, but quickly recovers."
+"The beam slices through the microbe's skin! A tremendous shudder
+passes through the microbe, but the wound quickly seals itself."
+"The monster rears back for a moment, but almost as soon as the
+beam goes off, it advances again."> %<> WORD> 
+<OBJECT STRIP (IN LOCAL-GLOBALS) (DESC "silicon strip") (SYNONYM STRIP SIDE
+EDGE) (ADJECTIVE SILICON) (FLAGS NDESCBIT) (ACTION STRIP-F)> 
+<DEFINE-ROUTINE STRIP-F> 
+<OBJECT RAT-ANT (IN BIO-LAB) (DESC "rat-like, ant-like man-sized monster") (
+LDESC "A ferocious feral creature, with a hairy shelled body and
+a whip-like tail snaps its enormous mandibles at you.") (SYNONYM MONSTER MUTANT
+RAT-ANT) (ADJECTIVE RAT-LIKE ANT-LIKE MAN-SIZED) (FLAGS ACTORBIT)> 
+<OBJECT TROLL (IN BIO-LAB) (DESC "hairy growling biped") (LDESC
+"Rushing toward you is an ugly, deformed humanoid, bellowing
+in a guttural tongue. It brandishes a piece of lab equipment shaped
+somewhat like a battle axe.") (SYNONYM TROLL BIPED MUTANT MONSTER) (ADJECTIVE
+HAIRY GROWLING UGLY DEFORMED) (FLAGS ACTORBIT)> 
+<OBJECT GRUE (IN BIO-LAB) (DESC "lurking fanged creature") (LDESC
+"Lurking nearby is a vicious-looking creature with slavering
+fangs. Squinting in the light, it eyes you hungrily.") (SYNONYM GRUE CREATURE
+MUTANT MONSTER) (ADJECTIVE LURKING SINISTER FANGED VICIOUS HUNGRY SILENT) (
+FLAGS ACTORBIT) (ACTION GRUE-F)> 
+<DEFINE-ROUTINE GRUE-F> 
+<OBJECT TRIFFID (IN BIO-LAB) (DESC "mobile man-eating plant") (LDESC
+"A giant plant, teeming with poisonous tentacles, is shuffling
+toward you on three leg-like stalks.") (SYNONYM TRIFFID PLANT MUTANT MONSTER) (
+ADJECTIVE MOBILE MAN-EATING GIANT) (FLAGS ACTORBIT)> 
